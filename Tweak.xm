@@ -2,7 +2,50 @@
 #import <PrefixUI/PrefixUI.h>
 #import <UIKit/UIKit.h>
 #include <CSColorPicker/CSColorPicker.h>
-#define rgb(r, g, b) [UIColor colorWithRed:(float)r / 255.0 green:(float)g / 255.0 blue:(float)b / 255.0 alpha:1.0]
+#import <libimagepicker.h>
+//#define rgb(r, g, b) [UIColor colorWithRed:(float)r / 255.0 green:(float)g / 255.0 blue:(float)b / 255.0 alpha:1.0]
+
+
+NSInteger colorProfile;
+
+struct pixel {
+    unsigned char r, g, b, a;
+};
+
+CGFloat alpha = 1.0;
+static UIColor *dominantColorFromImage(UIImage *image) {
+    CGImageRef iconCGImage = image.CGImage;
+    NSUInteger red = 0, green = 0, blue = 0;
+    size_t width = CGImageGetWidth(iconCGImage);
+    size_t height = CGImageGetHeight(iconCGImage);
+    size_t bitmapBytesPerRow = width * 4;
+    size_t bitmapByteCount = bitmapBytesPerRow * height;
+    struct pixel *pixels = (struct pixel *)malloc(bitmapByteCount);
+    if (pixels) {
+        CGContextRef context = CGBitmapContextCreate((void *)pixels, width, height, 8, bitmapBytesPerRow, CGImageGetColorSpace(iconCGImage), kCGImageAlphaPremultipliedLast);
+        if (context) {
+            CGContextDrawImage(context, CGRectMake(0.0, 0.0, width, height), iconCGImage);
+            NSUInteger numberOfPixels = width * height;
+            for (size_t i = 0; i < numberOfPixels; i++) {
+                red += pixels[i].r;
+                green += pixels[i].g;
+                blue += pixels[i].b;
+            }
+            red /= numberOfPixels;
+            green /= numberOfPixels;
+            blue /= numberOfPixels;
+            CGContextRelease(context);
+        }
+        free(pixels);
+    }
+    return [UIColor colorWithRed:red/255.0 green:green/255.0 blue:blue/255.0 alpha:alpha];
+}
+
+UIColor *imageAverageColor(UIImage *image) {
+    UIColor *color = dominantColorFromImage(image);
+    return color;
+}
+
 
 /*
   _____           __
@@ -23,27 +66,52 @@ any value thats not bool you should be able to do prefs[@"key"] integerValue | f
 and for string values you can just do prefs[@"key"]; bool is the only type that requires the extra steps shown above
 */
 static NSString *nsDomainString = @"/User/Library/Preferences/com.midnightchips.bettersettingsmain";
+static NSString *imagePlist = @"com.midnightchips.bettersettings.image";
 static NSString *nsNotificationString = @"com.midnightchips.bettersettings.prefschanged";
 static NSString *nsPrefPlistPath = @"/User/Library/Preferences/com.midnightchips.bettersettings.plist";
 
 static NSString *statusColor;
 static NSString *tableColor;
+static NSString *bubbleColor;
+static NSString *borderColor;
+static NSString *bubbleSelectionColor;
+static NSString *navTint;
+static NSString *textTint;
+
 static float cornerRadius;
+static float borderWidth;
 
 static BOOL enableImage;
+static BOOL tintNav;
 static BOOL enableBubbles;
+static BOOL hideIcons;
+static BOOL adaptiveColor;
+
+static UIImage *textImage;
+static NSData *tableImage;
 
 static void notificationCallback(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo) {
   //Colors
   NSDictionary *prefs = [NSDictionary dictionaryWithContentsOfFile:nsPrefPlistPath] ? : [NSDictionary new];
-
   statusColor = prefs[@"statusColor"];
   tableColor = prefs[@"tableColor"];
+  bubbleColor = prefs[@"bubbleColor"];
+  borderColor = prefs[@"borderColor"];
+  navTint = prefs[@"navTint"];
+  textTint = prefs[@"textTint"];
+
+  bubbleSelectionColor = prefs[@"bubbleSelectionColor"];
   enableImage = prefs[@"enableImage"] ? [prefs[@"enableImage"]  boolValue] : NO;
   enableBubbles = prefs[@"enableBubbles"] ? [prefs[@"enableBubbles"]  boolValue] : NO;
+  tintNav = prefs[@"tintNav"] ? [prefs[@"tintNav"]  boolValue] : NO;
+  hideIcons = prefs[@"hideIcons"] ? [prefs[@"hideIcons"]  boolValue] : NO;
+  adaptiveColor = prefs[@"adaptiveColor"] ? [prefs[@"adaptiveColor"]  boolValue] : NO;
+
   cornerRadius = [prefs[@"cornerRadius"] floatValue];
+  borderWidth = [prefs[@"borderWidth"] floatValue];
 
-
+  NSData *tImage = (NSData *)[[NSUserDefaults standardUserDefaults] objectForKey:@"backgroundImage" inDomain:imagePlist];
+  tableImage = tImage;
 }
 /*
  _______ _________ _______ _________          _______  ______   _______  _______
@@ -94,7 +162,12 @@ static void notificationCallback(CFNotificationCenterRef center, void *observer,
 -(void)layoutSubviews {
   %orig;
   if (enableImage){
-    self.backgroundColor = [UIColor clearColor];
+    if(tintNav){
+      self.backgroundColor = [UIColor colorFromHexString:navTint];
+    }else{
+      self.backgroundColor = [UIColor clearColor];
+    }
+
   }else {
     self.backgroundColor = [UIColor colorFromHexString:tableColor];
   }
@@ -134,7 +207,12 @@ static void notificationCallback(CFNotificationCenterRef center, void *observer,
 
     //Set BackgroundColor of NavBar, clear for backgroundImage
     if(enableImage){
-      [self setBackgroundColor:[UIColor clearColor]];
+      if(tintNav){
+        [self setBackgroundColor:[UIColor colorFromHexString:navTint]];
+      }else{
+        [self setBackgroundColor:[UIColor clearColor]];
+      }
+
     }else{
       [self setBackgroundColor:[UIColor colorFromHexString:tableColor]];
     }
@@ -152,7 +230,12 @@ static void notificationCallback(CFNotificationCenterRef center, void *observer,
 %hook _UIBarBackground
 - (void) setBackgroundColor:(UIColor *)color {
   if(enableImage){
-    %orig([UIColor clearColor]);
+    if(tintNav){
+      %orig([UIColor colorFromHexString:navTint]);
+    }else{
+      %orig([UIColor clearColor]);
+    }
+
   }else{
     %orig([UIColor colorFromHexString:tableColor]);
   }
@@ -163,7 +246,12 @@ static void notificationCallback(CFNotificationCenterRef center, void *observer,
 %hook PSKeyboardNavigationSearchBar
 - (void) setBackgroundColor:(UIColor *)color {
   if(enableImage){
-    %orig([UIColor clearColor]);
+    if(tintNav){
+      %orig([UIColor colorFromHexString:navTint]);
+    }else{
+      %orig([UIColor clearColor]);
+    }
+
   }else{
     %orig([UIColor colorFromHexString:tableColor]);
   }
@@ -183,7 +271,14 @@ _____                     _     ____
 -(void)didMoveToWindow{
   %orig;
   self.backgroundColor = [UIColor clearColor];
-  self.textColor = [UIColor whiteColor];
+  if(adaptiveColor){
+    UIImage *textImage = [UIImage imageWithData:tableImage];
+    UIColor *avgColor = imageAverageColor(textImage);
+    self.textColor = avgColor;
+  }else{
+    self.textColor = [UIColor colorFromHexString:textTint];
+  }
+
 }
 %end
 
@@ -200,23 +295,31 @@ _____                     _     ____
 -(void)didMoveToWindow {
   %orig;
   //Corners of the Tables
-  if(enableBubbles){
+
     //ENDED ON CORNER RADIUS
     //TODO FINISH THIS :P
     [self.layer setCornerRadius:cornerRadius];
-    [self setBackgroundColor: rgb(38, 37, 42)];
+
+    [self setBackgroundColor: [UIColor colorFromHexString: bubbleColor]];//rgb(38, 37, 42)];
     //Border Color and Width
-    [self.layer setBorderColor:[UIColor blackColor].CGColor];
-    [self.layer setBorderWidth:3];
+    [self.layer setBorderColor:[UIColor colorFromHexString: borderColor].CGColor];
+    [self.layer setBorderWidth:borderWidth];
 
     //Set Text Color
-    self.textLabel.textColor = [UIColor whiteColor];
-    self.detailTextLabel.textColor = [UIColor whiteColor];
+    if(adaptiveColor){
+      UIImage *textImage = [UIImage imageWithData:tableImage];
+      UIColor *avgColor = imageAverageColor(textImage);
+      self.textLabel.textColor = avgColor;
+      self.detailTextLabel.textColor = avgColor;
+    }else{
+      self.textLabel.textColor = [UIColor colorFromHexString:textTint];
+      self.detailTextLabel.textColor = [UIColor colorFromHexString:textTint];
+    }
+
     self.clipsToBounds = YES;
-    MSHookIvar<UIColor*>(self, "_selectionTintColor") = [UIColor blackColor];
-  }else{
-    %orig;
-  }
+    MSHookIvar<UIColor*>(self, "_selectionTintColor") = [UIColor colorFromHexString:bubbleSelectionColor];
+
+
 
   //Background Color of Corners
 
@@ -250,7 +353,7 @@ _____                     _     ____
   //self.backgroundColor = [UIColor blackColor];
   //Set the Background to an Image, Importing UIImage+ScaledImage.h for this
   if(enableImage){              //TODO CHANGE THE IMAGE TO PICKING AN IMAGE
-    UIImage *bgImage = [[UIImage imageWithContentsOfFile: @"/User/Documents/good.jpg"] imageScaledToSize:[UIScreen mainScreen].bounds.size];
+    UIImage *bgImage = [[UIImage imageWithData:tableImage] imageScaledToSize:[[UIApplication sharedApplication] keyWindow].bounds.size];
     self.backgroundView = [[UIImageView alloc] initWithImage: bgImage];
   }else{
     self.backgroundColor = [UIColor colorFromHexString:tableColor];
@@ -264,7 +367,13 @@ _____                     _     ____
 %hook UILabel
 -(void)layoutSubviews{
   %orig;
-  self.textColor = [UIColor whiteColor];
+  if(adaptiveColor){
+    UIImage *textImage = [UIImage imageWithData:tableImage];
+    UIColor *avgColor = imageAverageColor(textImage);
+    self.textColor = avgColor;
+  }else{
+    self.textColor = [UIColor colorFromHexString:textTint];
+  }
   self.backgroundColor = [UIColor clearColor];
 }
 %end
@@ -295,7 +404,12 @@ _____                     _     ____
 %hook PRXBubbleBackgroundView
 -(void)layoutSubviews{
   %orig;
-  self.backgroundColor = rgb(38, 37, 42);
+  if(enableImage){
+    self.backgroundColor = [UIColor clearColor];//rgb(38, 37, 42);
+  }else{
+    self.backgroundColor = [UIColor colorFromHexString:bubbleColor];
+  }
+
 }
 %end
 
@@ -317,11 +431,11 @@ _____                     _     ____
   //Lock Glyph
   UIImageView *lock = MSHookIvar<UIImageView*>(self, "_lockImageView");
   lock.image = [lock.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-  [lock setTintColor:[UIColor whiteColor]];
+  [lock setTintColor:[UIColor colorFromHexString:textTint]];
   //Wifi Glyph
   UIImageView *wifi = MSHookIvar<UIImageView*>(self, "_signalImageView");
   wifi.image = [wifi.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-  [wifi setTintColor:[UIColor whiteColor]];
+  [wifi setTintColor:[UIColor colorFromHexString:textTint]];
 
 }
 %end
@@ -400,13 +514,19 @@ _____                     _     ____
 
 */
 //Removes Icons from Everything
+
+
+
 %hook PSTableCell
 - (void)setIcon:(id)arg1 {
-  //return nothing or nil;
-    //if(RemoveSettingsIcons){
-    //}
-    //else {%orig;}
+  //Yes This way makes no sense. Leave me alone
+  if(!hideIcons){
+    //return Nothing
+    return %orig;
+  }else{
+    //Other wise be Normal
     nil;
+  }
 }
 %end
 //This one removes 3rd party icons, probably wont use, but is useful

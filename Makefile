@@ -4,6 +4,7 @@ TWEAK_NAME = rewriteSettings
 rewriteSettings_FILES = Tweak.xm UIImage+ScaledImage.m
 rewriteSettings_PRIVATE_FRAMEWORKS = WiFiKitUI
 rewriteSettings_EXTRA_FRAMEWORKS = PrefixUI
+rewriteSettings_LIBRARIES = imagepicker
 rewriteSettings_CFLAGS +=  -fobjc-arc
 rewriteSettings_LDFLAGS += -lCSColorPicker
 

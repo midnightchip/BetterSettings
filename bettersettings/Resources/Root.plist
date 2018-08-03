@@ -53,6 +53,16 @@
 				<string>Set Background Image</string>
 				<key>key</key>
 				<string>enableImage</string>
+				<key>disableSpecifiers</key>
+				<array>
+					<string>tableColor</string>
+				</array>
+				<key>enableSpecifiers</key>
+				<array>
+					<string>backgroundImage</string>
+					<string>tintNav</string>
+					<!--<string>adaptiveColor</string>-->
+				</array>
 				<key>PostNotification</key>
 				<string>com.midnightchips.bettersettings.prefschanged</string>
 				<key>defaults</key>
@@ -60,23 +70,62 @@
 			</dict>
 			<dict>
 				<key>cell</key>
-				<string>PSGroupCell</string>
-				<key>footerAlignment</key>
-				<integer>1</integer>
+				<string>PSLinkCell</string>
+				<key>cellClass</key>
+				<string>LIPImageChooseCell</string>
+				<key>label</key>
+				<string>Choose Background Image</string>
+				<key>action</key>
+				<string>chooseImage</string>
+				<key>defaults</key>
+				<string>com.midnightchips.bettersettings.image</string>
+				<key>key</key>
+				<string>backgroundImage</string>
+				<key>PostNotification</key>
+				<string>com.midnightchips.bettersettings.image.post</string>
 			</dict>
 			<dict>
 				<key>cell</key>
 				<string>PSSwitchCell</string>
 				<key>label</key>
-				<string>Enable Bubbles</string>
+				<string>Tint the NavigationBar</string>
 				<key>key</key>
-				<string>enableBubbles</string>
-				<key>isGroupToggle</key>
-				<true/>
+				<string>tintNav</string>
 				<key>PostNotification</key>
 				<string>com.midnightchips.bettersettings.prefschanged</string>
 				<key>defaults</key>
 				<string>com.midnightchips.bettersettings</string>
+				<key>enableSpecifiers</key>
+				<array>
+					<string>navTint</string>
+				</array>
+			</dict>
+			<dict>
+				<key>PostNotification</key>
+				<string>com.midnightchips.bettersettings.prefschanged</string>
+				<key>cell</key>
+				<string>PSLinkCell</string>
+				<key>cellClass</key>
+				<string>CSColorDisplayCell</string>
+				<key>defaults</key>
+				<string>com.midnightchips.bettersettings</string>
+				<key>key</key>
+				<string>navTint</string>
+				<key>label</key>
+				<string>Set Nav Bar Tint Color (Make sure to set your alpha)</string>
+				<key>fallback</key>
+				<string>000000</string>
+				<key>alpha</key>
+				<true/>
+			</dict>
+
+			<dict>
+				<key>cell</key>
+				<string>PSGroupCell</string>
+				<key>footerText</key>
+				<string>Set Corner Radius. Used for making Bubbles</string>
+				<key>footerAlignment</key>
+				<integer>1</integer>
 			</dict>
 			<dict>
 				<key>cell</key>
@@ -96,7 +145,161 @@
 				<key>showValue</key>
 				<false/>
 				<key>description</key>
+				<string>Set Corner Radius:\n\nSet how much its curved</string>
+				<key>PostNotification</key>
+				<string>com.midnightchips.bettersettings.prefschanged</string>
+				<key>defaults</key>
+				<string>com.midnightchips.bettersettings</string>
+			</dict>
+			<dict>
+				<key>cell</key>
+				<string>PSGroupCell</string>
+				<key>footerAlignment</key>
+				<integer>1</integer>
+			</dict>
+			<dict>
+				<key>PostNotification</key>
+				<string>com.midnightchips.bettersettings.prefschanged</string>
+				<key>cell</key>
+				<string>PSLinkCell</string>
+				<key>cellClass</key>
+				<string>CSColorDisplayCell</string>
+				<key>defaults</key>
+				<string>com.midnightchips.bettersettings</string>
+				<key>key</key>
+				<string>bubbleColor</string>
+				<key>label</key>
+				<string>Set Table Color</string>
+				<key>fallback</key>
+				<string>26252A</string>
+				<key>alpha</key>
+				<true/>
+			</dict>
+			<dict>
+				<key>cell</key>
+				<string>PSGroupCell</string>
+				<key>footerAlignment</key>
+				<integer>1</integer>
+			</dict>
+			<!--<dict>
+				<key>cell</key>
+				<string>PSSwitchCell</string>
+				<key>label</key>
+				<string>Adaptive color the text</string>
+				<key>key</key>
+				<string>adaptiveColor</string>
+				<key>PostNotification</key>
+				<string>com.midnightchips.bettersettings.prefschanged</string>
+				<key>defaults</key>
+				<string>com.midnightchips.bettersettings</string>
+				<key>disableSpecifiers</key>
+				<array>
+					<string>textTint</string>
+				</array>
+			</dict>-->
+			<dict>
+				<key>PostNotification</key>
+				<string>com.midnightchips.bettersettings.prefschanged</string>
+				<key>cell</key>
+				<string>PSLinkCell</string>
+				<key>cellClass</key>
+				<string>CSColorDisplayCell</string>
+				<key>defaults</key>
+				<string>com.midnightchips.bettersettings</string>
+				<key>key</key>
+				<string>textTint</string>
+				<key>label</key>
+				<string>Set Text Color</string>
+				<key>fallback</key>
+				<string>FFFFFF</string>
+				<key>alpha</key>
+				<true/>
+			</dict>
+			<dict>
+				<key>cell</key>
+				<string>PSGroupCell</string>
+				<key>footerText</key>
+				<string>Set Border Width. Used for making Bubbles</string>
+				<key>footerAlignment</key>
+				<integer>1</integer>
+			</dict>
+			<dict>
+				<key>cell</key>
+				<string>PSSliderCell</string>
+				<key>isContinuous</key>
+				<true/>
+				<key>key</key>
+				<string>borderWidth</string>
+				<key>leftImage</key>
+				<string/>
+				<key>max</key>
+				<real>15</real>
+				<key>min</key>
+				<real>0</real>
+				<key>rightImage</key>
+				<string/>
+				<key>showValue</key>
+				<false/>
+				<key>label</key>
+				<string>Set Border Radius</string>
+				<key>sublabel</key>
 				<string>Set Border Radius:\n\nSet how much its curved</string>
+				<key>PostNotification</key>
+				<string>com.midnightchips.bettersettings.prefschanged</string>
+				<key>defaults</key>
+				<string>com.midnightchips.bettersettings</string>
+			</dict>
+			<dict>
+				<key>cell</key>
+				<string>PSGroupCell</string>
+				<key>footerAlignment</key>
+				<integer>1</integer>
+			</dict>
+			<dict>
+				<key>PostNotification</key>
+				<string>com.midnightchips.bettersettings.prefschanged</string>
+				<key>cell</key>
+				<string>PSLinkCell</string>
+				<key>cellClass</key>
+				<string>CSColorDisplayCell</string>
+				<key>defaults</key>
+				<string>com.midnightchips.bettersettings</string>
+				<key>key</key>
+				<string>borderColor</string>
+				<key>label</key>
+				<string>Set Tables Border Color</string>
+				<key>fallback</key>
+				<string>000000</string>
+				<key>alpha</key>
+				<true/>
+			</dict>
+			<dict>
+				<key>PostNotification</key>
+				<string>com.midnightchips.bettersettings.prefschanged</string>
+				<key>cell</key>
+				<string>PSLinkCell</string>
+				<key>cellClass</key>
+				<string>CSColorDisplayCell</string>
+				<key>defaults</key>
+				<string>com.midnightchips.bettersettings</string>
+				<key>key</key>
+				<string>bubbleSelectionColor</string>
+				<key>label</key>
+				<string>Set Tab Selection Color</string>
+				<key>fallback</key>
+				<string>000000</string>
+				<key>alpha</key>
+				<true/>
+			</dict>
+			<dict>
+				<key>cell</key>
+				<string>PSSwitchCell</string>
+				<key>label</key>
+				<string>Hide all icons in settings</string>
+				<key>sublabel</key>
+				<string>Thanks to Lucifers_Circle for the help with this one</string>
+				<key>key</key>
+				<string>hideIcons</string>
 				<key>PostNotification</key>
 				<string>com.midnightchips.bettersettings.prefschanged</string>
 				<key>defaults</key>

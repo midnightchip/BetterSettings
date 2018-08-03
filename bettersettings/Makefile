@@ -5,6 +5,7 @@ BetterSettings_FILES = BSPPreferenceController.m
 BetterSettings_INSTALL_PATH = /Library/PreferenceBundles
 BetterSettings_FRAMEWORKS = UIKit
 BetterSettings_PRIVATE_FRAMEWORKS = Preferences
+BetterSettings_LIBRARIES = imagepicker
 BetterSettings_CFLAGS += -fobjc-arc
 BetterSettings_LDFLAGS +=  -lCSPreferences -lCSColorPicker
 
