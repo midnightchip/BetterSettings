@@ -1,11 +1,50 @@
 #import "UIImage+ScaledImage.h"
 #import <PrefixUI/PrefixUI.h>
 #import <UIKit/UIKit.h>
-
-
-
+#include <CSColorPicker/CSColorPicker.h>
 #define rgb(r, g, b) [UIColor colorWithRed:(float)r / 255.0 green:(float)g / 255.0 blue:(float)b / 255.0 alpha:1.0]
 
+/*
+  _____           __
+ |  __ \         / _|
+ | |__) | __ ___| |_ ___
+ |  ___/ '__/ _ \  _/ __|
+ | |   | | |  __/ | \__ \
+ |_|   |_|  \___|_| |___/
+
+*/
+
+@interface NSUserDefaults (BetterSettings)
+- (id)objectForKey:(NSString *)key inDomain:(NSString *)domain;
+- (void)setObject:(id)value forKey:(NSString *)key inDomain:(NSString *)domain;
+@end
+/*
+any value thats not bool you should be able to do prefs[@"key"] integerValue | floatValue] etc,
+and for string values you can just do prefs[@"key"]; bool is the only type that requires the extra steps shown above
+*/
+static NSString *nsDomainString = @"/User/Library/Preferences/com.midnightchips.bettersettingsmain";
+static NSString *nsNotificationString = @"com.midnightchips.bettersettings.prefschanged";
+static NSString *nsPrefPlistPath = @"/User/Library/Preferences/com.midnightchips.bettersettings.plist";
+
+static NSString *statusColor;
+static NSString *tableColor;
+static float cornerRadius;
+
+static BOOL enableImage;
+static BOOL enableBubbles;
+
+static void notificationCallback(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo) {
+  //Colors
+  NSDictionary *prefs = [NSDictionary dictionaryWithContentsOfFile:nsPrefPlistPath] ? : [NSDictionary new];
+
+  statusColor = prefs[@"statusColor"];
+  tableColor = prefs[@"tableColor"];
+  enableImage = prefs[@"enableImage"] ? [prefs[@"enableImage"]  boolValue] : NO;
+  enableBubbles = prefs[@"enableBubbles"] ? [prefs[@"enableBubbles"]  boolValue] : NO;
+  cornerRadius = [prefs[@"cornerRadius"] floatValue];
+
+
+}
 /*
  _______ _________ _______ _________          _______  ______   _______  _______
 (  ____ \\__   __/(  ___  )\__   __/|\     /|(  ____ \(  ___ \ (  ___  )(  ____ )
@@ -27,8 +66,8 @@
 -(void)layoutSubviews {
     %orig;
 
-    self.backgroundColor = [UIColor blackColor];
-    self.foregroundColor = [UIColor greenColor];
+    self.backgroundColor = [UIColor colorFromHexString:statusColor];
+    self.foregroundColor = [UIColor colorFromHexString:statusColor];
 }
 
 %end
@@ -41,7 +80,7 @@
 
 -(void)layoutSubviews {
     %orig;
-    self.foregroundColor = [UIColor greenColor];
+    self.foregroundColor = [UIColor colorFromHexString:statusColor];
 }
 
 %end
@@ -54,7 +93,11 @@
 //set to clear when using background option, or blurred
 -(void)layoutSubviews {
   %orig;
-  self.backgroundColor = [UIColor clearColor];
+  if (enableImage){
+    self.backgroundColor = [UIColor clearColor];
+  }else {
+    self.backgroundColor = [UIColor colorFromHexString:tableColor];
+  }
 }
 %end
 
@@ -90,7 +133,12 @@
     [self setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
 
     //Set BackgroundColor of NavBar, clear for backgroundImage
-    [self setBackgroundColor:[UIColor clearColor]];
+    if(enableImage){
+      [self setBackgroundColor:[UIColor clearColor]];
+    }else{
+      [self setBackgroundColor:[UIColor colorFromHexString:tableColor]];
+    }
+
 
     //Shadow ¯\_(ツ)_/¯ not sure what this does, but uhh... the code doesnt work without it.
     //self.shadowImage = [UIImage new];
@@ -103,14 +151,22 @@
 //iPX Fix wierd gap Clear for background, color otherwise
 %hook _UIBarBackground
 - (void) setBackgroundColor:(UIColor *)color {
-  %orig([UIColor clearColor]);
+  if(enableImage){
+    %orig([UIColor clearColor]);
+  }else{
+    %orig([UIColor colorFromHexString:tableColor]);
+  }
+
 }
 %end
 //Stupid Fix for Cephi atm, until something better comes about, Clear for background, color otherwise
 %hook PSKeyboardNavigationSearchBar
 - (void) setBackgroundColor:(UIColor *)color {
-  %orig([UIColor clearColor]);
-  //self.alpha = .3;
+  if(enableImage){
+    %orig([UIColor clearColor]);
+  }else{
+    %orig([UIColor colorFromHexString:tableColor]);
+  }
 }
 %end
 
@@ -144,18 +200,26 @@ _____                     _     ____
 -(void)didMoveToWindow {
   %orig;
   //Corners of the Tables
-  [self.layer setCornerRadius:12];
-  //Background Color of Corners
-  [self setBackgroundColor: rgb(38, 37, 42)];
+  if(enableBubbles){
+    //ENDED ON CORNER RADIUS
+    //TODO FINISH THIS :P
+    [self.layer setCornerRadius:cornerRadius];
+    [self setBackgroundColor: rgb(38, 37, 42)];
+    //Border Color and Width
+    [self.layer setBorderColor:[UIColor blackColor].CGColor];
+    [self.layer setBorderWidth:3];
 
-  //Border Color and Width
-  [self.layer setBorderColor:[UIColor blackColor].CGColor];
-  [self.layer setBorderWidth:3];
-  //Set Text Color
-  self.textLabel.textColor = [UIColor whiteColor];
-  self.detailTextLabel.textColor = [UIColor whiteColor];
-  self.clipsToBounds = YES;
-  MSHookIvar<UIColor*>(self, "_selectionTintColor") = [UIColor blackColor];
+    //Set Text Color
+    self.textLabel.textColor = [UIColor whiteColor];
+    self.detailTextLabel.textColor = [UIColor whiteColor];
+    self.clipsToBounds = YES;
+    MSHookIvar<UIColor*>(self, "_selectionTintColor") = [UIColor blackColor];
+  }else{
+    %orig;
+  }
+
+  //Background Color of Corners
+
   //self.selectionTintColor = [UIColor blackColor];
 }
 %end
@@ -185,8 +249,13 @@ _____                     _     ____
   //Set the background Color to a Color or to an Image
   //self.backgroundColor = [UIColor blackColor];
   //Set the Background to an Image, Importing UIImage+ScaledImage.h for this
-  UIImage *bgImage = [[UIImage imageWithContentsOfFile: @"/User/Documents/good.jpg"] imageScaledToSize:[UIScreen mainScreen].bounds.size];
-  self.backgroundView = [[UIImageView alloc] initWithImage: bgImage];
+  if(enableImage){              //TODO CHANGE THE IMAGE TO PICKING AN IMAGE
+    UIImage *bgImage = [[UIImage imageWithContentsOfFile: @"/User/Documents/good.jpg"] imageScaledToSize:[UIScreen mainScreen].bounds.size];
+    self.backgroundView = [[UIImageView alloc] initWithImage: bgImage];
+  }else{
+    self.backgroundColor = [UIColor colorFromHexString:tableColor];
+  }
+
 }
 %end
 
@@ -351,3 +420,13 @@ _____                     _     ____
     else {%orig;}
 }
 %end*/
+
+%ctor{
+  notificationCallback(NULL, NULL, NULL, NULL, NULL);
+  CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(),
+    NULL,
+    notificationCallback,
+    (CFStringRef)nsNotificationString,
+    NULL,
+    CFNotificationSuspensionBehaviorCoalesce);
+  }

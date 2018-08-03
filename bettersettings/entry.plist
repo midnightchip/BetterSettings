@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+	<dict>
+		<key>entry</key>
+		<dict>
+			<key>bundle</key>
+			<string>BetterSettings</string>
+			<key>cell</key>
+			<string>PSLinkCell</string>
+			<key>detail</key>
+			<string>CSPListController</string>
+			<key>icon</key>
+			<string>icon.png</string>
+			<key>isController</key>
+			<true/>
+			<key>label</key>
+			<string>BetterSettings</string>
+			<key>headerString</key>
+			<string>BetterSettings\nby: MidnightChips</string>
+			<key>headerFont</key>
+			<string>.SFUIDisplay-Regular</string>
+			<key>primaryFontSize</key>
+			<real>36</real>
+			<key>secondaryFontSize</key>
+			<real>17</real>
+			<key>primaryColor</key>
+			<string>#339933</string>
+			<key>secondaryColor</key>
+			<string>#5c5555</string>
+		</dict>
+	</dict>
+</plist>
