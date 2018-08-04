@@ -100,8 +100,8 @@ static void notificationCallback(CFNotificationCenterRef center, void *observer,
 -(void)layoutSubviews {
     %orig;
 
-    self.backgroundColor = [UIColor colorFromHexString:[prefs stringForKey:@"statusColor"]];//statusColor];
-    self.foregroundColor = [UIColor colorFromHexString:[prefs stringForKey:@"statusColor"]];//statusColor];
+    self.backgroundColor = [prefs colorForKey:@"statusColor"];//statusColor];
+    self.foregroundColor = [prefs colorForKey:@"statusColor"];//statusColor];
 }
 
 %end
@@ -114,7 +114,7 @@ static void notificationCallback(CFNotificationCenterRef center, void *observer,
 
 -(void)layoutSubviews {
     %orig;
-    self.foregroundColor = [UIColor colorFromHexString:[prefs stringForKey:@"statusColor"]];//statusColor];
+    self.foregroundColor = [prefs colorForKey:@"statusColor"];//statusColor];
 }
 
 %end
@@ -129,13 +129,13 @@ static void notificationCallback(CFNotificationCenterRef center, void *observer,
   %orig;
   if ([prefs boolForKey:@"enableImage"]];){
     if([prefs boolForKey:@"tintNav"]){
-      self.backgroundColor = [UIColor colorFromHexString:[prefs stringForKey:@"navTint"]];
+      self.backgroundColor = [prefs colorForKey:@"navTint"];
     }else{
       self.backgroundColor = [UIColor clearColor];
     }
 
   }else {
-    self.backgroundColor = [UIColor colorFromHexString:[prefs stringForKey:@"statusColor"]];
+    self.backgroundColor = [prefs colorForKey:@"statusColor"];
   }
 }
 %end
@@ -174,13 +174,13 @@ static void notificationCallback(CFNotificationCenterRef center, void *observer,
     //Set BackgroundColor of NavBar, clear for backgroundImage
     if([prefs boolForKey:@"enableImage"]){
       if([prefs boolForKey:@"tintNav"]){
-        [self setBackgroundColor:[UIColor colorFromHexString:[prefs stringForKey:@"navTint"]]];
+        [self setBackgroundColor:[prefs colorForKey:@"navTint"];
       }else{
         [self setBackgroundColor:[UIColor clearColor]];
       }
 
     }else{
-      [self setBackgroundColor:[UIColor colorFromHexString:[prefs stringForKey:@"statusColor"]]];
+      [self setBackgroundColor:[prefs colorForKey:@"statusColor"];
     }
 
 
@@ -197,13 +197,13 @@ static void notificationCallback(CFNotificationCenterRef center, void *observer,
 - (void) setBackgroundColor:(UIColor *)color {
   if([prefs boolForKey:@"enableImage"]){
     if([prefs boolForKey:@"tintNav"]){
-      %orig([UIColor colorFromHexString:[prefs stringForKey:@"navTint"]]);
+      %orig([prefs colorForKey:@"navTint"]);
     }else{
       %orig([UIColor clearColor]);
     }
 
   }else{
-    %orig([UIColor colorFromHexString:[prefs stringForKey:@"statusColor"]]);
+    %orig([prefs colorForKey:@"statusColor"]);
   }
 
 }
@@ -213,13 +213,13 @@ static void notificationCallback(CFNotificationCenterRef center, void *observer,
 - (void) setBackgroundColor:(UIColor *)color {
   if([prefs boolForKey:@"enableImage"]){
     if([prefs boolForKey:@"tintNav"]){
-      %orig([UIColor colorFromHexString:[prefs stringForKey:@"navTint"]]);
+      %orig([prefs colorForKey:@"navTint"]);
     }else{
       %orig([UIColor clearColor]);
     }
 
   }else{
-    %orig([UIColor colorFromHexString:[prefs stringForKey:@"statusColor"]]);
+    %orig([prefs colorForKey:@"statusColor"]);
   }
 }
 %end
@@ -242,7 +242,7 @@ _____                     _     ____
     UIColor *avgColor = imageAverageColor(textImage);
     self.textColor = avgColor;
   }else{
-    self.textColor = [UIColor colorFromHexString:[prefs stringForKey:@"textTint"]];
+    self.textColor = [prefs colorForKey:@"textTint"];
   }
 
 }
@@ -266,9 +266,9 @@ _____                     _     ____
     //TODO FINISH THIS :P
     [self.layer setCornerRadius:[prefs floatForKey:@"cornerRadius"]];
 
-    [self setBackgroundColor: [UIColor colorFromHexString:[prefs stringForKey:@"bubbleColor"]];//rgb(38, 37, 42)];
+    [self setBackgroundColor: [prefs colorForKey:@"bubbleColor"];//rgb(38, 37, 42)];
     //Border Color and Width
-    [self.layer setBorderColor:[UIColor colorFromHexString:[prefs stringForKey:@"borderColor"]].CGColor];
+    [self.layer setBorderColor:[prefs colorForKey:@"borderColor"].CGColor];
     [self.layer setBorderWidth:[prefs floatForKey:@"borderWidth"]];
 
     //Set Text Color
@@ -278,12 +278,12 @@ _____                     _     ____
       self.textLabel.textColor = avgColor;
       self.detailTextLabel.textColor = avgColor;
     }else{
-      self.textLabel.textColor = [UIColor colorFromHexString:[prefs stringForKey:@"textTint"]];
-      self.detailTextLabel.textColor = [UIColor colorFromHexString:[prefs stringForKey:@"textTint"]];
+      self.textLabel.textColor = [prefs colorForKey:@"textTint"];
+      self.detailTextLabel.textColor = [prefs colorForKey:@"textTint"];
     }
 
     self.clipsToBounds = YES;
-    MSHookIvar<UIColor*>(self, "_selectionTintColor") = [UIColor colorFromHexString:[prefs stringForKey:@"bubbleSelectionColor"]];
+    MSHookIvar<UIColor*>(self, "_selectionTintColor") = [prefs colorForKey:@"bubbleSelectionColor"];
 
 
 
@@ -322,7 +322,7 @@ _____                     _     ____
     UIImage *bgImage = [[UIImage imageWithData:tableImage] imageScaledToSize:[[UIApplication sharedApplication] keyWindow].bounds.size];
     self.backgroundView = [[UIImageView alloc] initWithImage: bgImage];
   }else{
-    self.backgroundColor = [UIColor colorFromHexString:[prefs stringForKey:@"statusColor"]];
+    self.backgroundColor = [prefs colorForKey:@"statusColor"];
   }
 
 }
@@ -338,7 +338,7 @@ _____                     _     ____
     UIColor *avgColor = imageAverageColor(textImage);
     self.textColor = avgColor;
   }else{
-    self.textColor = [UIColor colorFromHexString:[prefs stringForKey:@"textTint"]];
+    self.textColor = [prefs colorForKey:@"textTint"];
   }
   self.backgroundColor = [UIColor clearColor];
 }
@@ -373,7 +373,7 @@ _____                     _     ____
   if([prefs boolForKey:@"enableImage"]){
     self.backgroundColor = [UIColor clearColor];//rgb(38, 37, 42);
   }else{
-    self.backgroundColor = [UIColor colorFromHexString:[prefs stringForKey:@"bubbleColor"]];
+    self.backgroundColor = [prefs colorForKey:@"bubbleColor"];
   }
 
 }
@@ -397,11 +397,11 @@ _____                     _     ____
   //Lock Glyph
   UIImageView *lock = MSHookIvar<UIImageView*>(self, "_lockImageView");
   lock.image = [lock.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-  [lock setTintColor:[UIColor colorFromHexString:[prefs stringForKey:@"textTint"]]];
+  [lock setTintColor:[prefs colorForKey:@"textTint"]];
   //Wifi Glyph
   UIImageView *wifi = MSHookIvar<UIImageView*>(self, "_signalImageView");
   wifi.image = [wifi.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-  [wifi setTintColor:[UIColor colorFromHexString:[prefs stringForKey:@"textTint"]]];
+  [wifi setTintColor:[prefs colorForKey:@"textTint"]];
 
 }
 %end
