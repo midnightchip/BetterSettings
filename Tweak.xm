@@ -127,7 +127,7 @@ static void notificationCallback(CFNotificationCenterRef center, void *observer,
 //set to clear when using background option, or blurred
 -(void)layoutSubviews {
   %orig;
-  if ([prefs boolForKey:@"enableImage"]];){
+  if ([prefs boolForKey:@"enableImage"]){
     if([prefs boolForKey:@"tintNav"]){
       self.backgroundColor = [prefs colorForKey:@"navTint"];
     }else{
@@ -135,7 +135,7 @@ static void notificationCallback(CFNotificationCenterRef center, void *observer,
     }
 
   }else {
-    self.backgroundColor = [prefs colorForKey:@"statusColor"];
+    self.backgroundColor = [prefs colorForKey:@"tableColor"];
   }
 }
 %end
@@ -174,13 +174,13 @@ static void notificationCallback(CFNotificationCenterRef center, void *observer,
     //Set BackgroundColor of NavBar, clear for backgroundImage
     if([prefs boolForKey:@"enableImage"]){
       if([prefs boolForKey:@"tintNav"]){
-        [self setBackgroundColor:[prefs colorForKey:@"navTint"];
+        [self setBackgroundColor:[prefs colorForKey:@"navTint"]];
       }else{
         [self setBackgroundColor:[UIColor clearColor]];
       }
 
     }else{
-      [self setBackgroundColor:[prefs colorForKey:@"statusColor"];
+      [self setBackgroundColor:[prefs colorForKey:@"tableColor"]];
     }
 
 
@@ -203,7 +203,7 @@ static void notificationCallback(CFNotificationCenterRef center, void *observer,
     }
 
   }else{
-    %orig([prefs colorForKey:@"statusColor"]);
+    %orig([prefs colorForKey:@"tableColor"]);
   }
 
 }
@@ -219,7 +219,7 @@ static void notificationCallback(CFNotificationCenterRef center, void *observer,
     }
 
   }else{
-    %orig([prefs colorForKey:@"statusColor"]);
+    %orig([prefs colorForKey:@"tableColor"]);
   }
 }
 %end
@@ -266,7 +266,7 @@ _____                     _     ____
     //TODO FINISH THIS :P
     [self.layer setCornerRadius:[prefs floatForKey:@"cornerRadius"]];
 
-    [self setBackgroundColor: [prefs colorForKey:@"bubbleColor"];//rgb(38, 37, 42)];
+    [self setBackgroundColor: [prefs colorForKey:@"bubbleColor"]];//rgb(38, 37, 42)];
     //Border Color and Width
     [self.layer setBorderColor:[prefs colorForKey:@"borderColor"].CGColor];
     [self.layer setBorderWidth:[prefs floatForKey:@"borderWidth"]];
@@ -322,7 +322,7 @@ _____                     _     ____
     UIImage *bgImage = [[UIImage imageWithData:tableImage] imageScaledToSize:[[UIApplication sharedApplication] keyWindow].bounds.size];
     self.backgroundView = [[UIImageView alloc] initWithImage: bgImage];
   }else{
-    self.backgroundColor = [prefs colorForKey:@"statusColor"];
+    self.backgroundColor = [prefs colorForKey:@"tableColor"];
   }
 
 }
