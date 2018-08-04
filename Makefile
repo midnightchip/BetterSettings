@@ -6,7 +6,7 @@ rewriteSettings_PRIVATE_FRAMEWORKS = WiFiKitUI
 rewriteSettings_EXTRA_FRAMEWORKS = PrefixUI
 rewriteSettings_LIBRARIES = imagepicker
 rewriteSettings_CFLAGS +=  -fobjc-arc
-rewriteSettings_LDFLAGS += -lCSColorPicker
+rewriteSettings_LDFLAGS += -lCSColorPicker -lCSPreferencesProvider
 
 include $(THEOS_MAKE_PATH)/tweak.mk
 
