@@ -1,6 +1,6 @@
 Package: com.midnightchips.rewritesettings
 Name: rewriteSettings
-Depends: mobilesubstrate, com.laughingquoll.prefixui
+Depends: mobilesubstrate, com.laughingquoll.prefixui, com.muirey03.libimagepicker, com.creaturesurvive.libcscolorpicker, com.creaturecoding.libcspreferences
 Version: 0.0.1
 Architecture: iphoneos-arm
 Description: An awesome MobileSubstrate tweak!
