@@ -7,7 +7,7 @@ BetterSettings_FRAMEWORKS = UIKit
 BetterSettings_PRIVATE_FRAMEWORKS = Preferences
 BetterSettings_LIBRARIES = imagepicker
 BetterSettings_CFLAGS += -fobjc-arc
-BetterSettings_LDFLAGS +=  -lCSPreferences -lCSColorPicker -lCSPreferencesProvider
+BetterSettings_LDFLAGS +=  -lCSPreferences -lCSColorPicker
 
 include $(THEOS_MAKE_PATH)/bundle.mk
 
