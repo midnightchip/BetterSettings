@@ -1,32 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
-<dict>
-	<key>statusColor</key>
-	<string>000000</string>
-	<key>tableColor</key>
-	<string>000000</string>
-	<key>enableImage</key>
-	<false/>
-	<key>tintNav</key>
-	<true/>
-	<key>navTint</key>
-	<string>000000</string>
-	<key>cornerRadius</key>
-	<real>12</real>
-	<key>bubbleColor</key>
-	<string>26252A</string>
-	<key>textTint</key>
-	<string>FFFFFF</string>
-	<key>borderWidth</key>
-	<real>3</real>
-	<key>borderColor</key>
-	<string>000000</string>
-	<key>bubbleSelectionColor</key>
-	<string>000000</string>
-	<key>hideIcons</key>
-	<false/>
-	<key>CleanSettings</key>
-	<false/>
-</dict>
+	<dict>
+		<key>statusColor</key>
+		<string>FFFFFF</string>
+		<key>tableColor</key>
+		<string>000000</string>
+		<key>enableImage</key>
+		<false/>
+		<key>tintNav</key>
+		<true/>
+		<key>navTint</key>
+		<string>000000</string>
+		<key>cornerRadius</key>
+		<real>12</real>
+		<key>bubbleColor</key>
+		<string>26252A</string>
+		<key>textTint</key>
+		<string>FFFFFF</string>
+		<key>borderWidth</key>
+		<real>3</real>
+		<key>borderColor</key>
+		<string>000000</string>
+		<key>bubbleSelectionColor</key>
+		<string>000000</string>
+		<key>hideIcons</key>
+		<false/>
+		<key>CleanSettings</key>
+		<false/>
+	</dict>
 </plist>

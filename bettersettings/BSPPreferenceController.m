@@ -5,12 +5,12 @@
 - (void)terminateWithSuccess;
 @end
 /*@interface UIApplication (close)
-   - (void)close;
-   @end
-   @implementation UIApplication (close)
+- (void)close;
+@end
+@implementation UIApplication (close)
 
-   - (void)close
-   {
+- (void)close
+{
     // Check if the current device supports background execution.
     BOOL multitaskingSupported = NO;
     // iOS < 4.0 compatibility check.
@@ -29,24 +29,23 @@
     }
     else
         [self exit];
-   }
+}
 
-   - (void)exit
-   {
+- (void)exit
+{
     // Again, good practice.
     if ([self respondsToSelector:@selector(terminateWithSuccess)])
         [self terminateWithSuccess];
     else
         exit(EXIT_SUCCESS);
-   }
+}
 
-   @end*/
+@end*/
 
 
 @implementation BSPPreferenceController
 
 - (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
     UIBarButtonItem *applyButton = [[UIBarButtonItem alloc] initWithTitle:@"Apply" style:UIBarButtonItemStylePlain target:self action:@selector(applySettings)];
         self.navigationItem.rightBarButtonItem = applyButton;
 }
