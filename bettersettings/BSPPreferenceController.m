@@ -5,7 +5,7 @@
 - (void)suspend;
 - (void)terminateWithSuccess;
 @end
-/*@interface UIApplication (close)
+@interface UIApplication (close)
    - (void)close;
    @end
    @implementation UIApplication (close)
@@ -41,11 +41,11 @@
         exit(EXIT_SUCCESS);
    }
 
-   @end*/
+   @end
 @interface BSPPreferenceController (BetterSettings)
 @end
 
-@implementation BSPPreferenceController (BetterSettings)
+@implementation CSPListController (BetterSettings)
 -(void)BS_enableDarkBubbles{
   /*[CSPUProcessManager resultFromProcessAtPath:@"/bin/cp" handle:nil arguments:@[@"/var/mobile/Library/Preferences/com.midnightchips.bettersettings.plist.bubbleDark", @"/var/mobile/Library/Preferences/com.midnightchips.bettersettings.plist",] completion:^(NSTask *task){
 
@@ -70,6 +70,9 @@ UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAler
         self.navigationItem.rightBarButtonItem = applyButton;
 }
 -(void)applySettings{
-  [[UIApplication sharedApplication] terminateWithSuccess];
+  [[UIApplication sharedApplication] close];
+  [CSPUProcessManager resultFromProcessAtPath:@"/usr/bin/almighty" handle:nil arguments:@[@"/usr/bin/killall", @"-9", @"Preferences"] completion:^(NSTask *task){
+
+}];
 }
 @end
