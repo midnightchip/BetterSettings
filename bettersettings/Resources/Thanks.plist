@@ -1,0 +1,82 @@
+<?xml version=1.0 encoding=UTF-8?>
+<!DOCTYPE plist PUBLIC -//Apple//DTD PLIST 1.0//EN http://www.apple.com/DTDs/PropertyList-1.0.dtd>
+<plist version=1.0>
+	<dict>
+		<key>items</key>
+		<array>
+			<dict>
+				<key>cell</key>
+				<string>PSGroupCell</string>
+				<key>footerText</key>
+				<string>MidnightChips © 2018</string>
+				<key>footerAlignment</key>
+				<integer>1</integer>
+			</dict>
+			<dict>
+				<key>action</key>
+				<string>openInBrowser:</string>
+				<key>cell</key>
+				<string>PSLinkCell</string>
+				<key>url</key>
+				<string>https://twitter.com/CreatureSurvive</string>
+				<key>label</key>
+				<string>CreatureSurvive</string>
+				<key>sublabel</key>
+				<string>Made prefs, helped me more than words can describe</string>
+			</dict>
+
+			<dict>
+				<key>action</key>
+				<string>openInBrowser:</string>
+				<key>cell</key>
+				<string>PSLinkCell</string>
+				<key>url</key>
+				<string>https://twitter.com/Lucifers_Circle</string>
+				<key>label</key>
+				<string>Lucifers Circle</string>
+				<key>sublabel</key>
+				<string>Helped hide icons, and made Clean Settings</string>
+			</dict>
+
+			<dict>
+				<key>action</key>
+				<string>openInBrowser:</string>
+				<key>cell</key>
+				<string>PSLinkCell</string>
+				<key>url</key>
+				<string>https://twitter.com/squ1dd13</string>
+				<key>label</key>
+				<string>Squiddy</string>
+				<key>sublabel</key>
+				<string>Let me ask stupid questions</string>
+			</dict>
+
+			<dict>
+				<key>action</key>
+				<string>openInBrowser:</string>
+				<key>cell</key>
+				<string>PSLinkCell</string>
+				<key>url</key>
+				<string>https://twitter.com/Muirey03</string>
+				<key>label</key>
+				<string>Muirey03</string>
+				<key>sublabel</key>
+				<string>Also Helped me with my stupid questions</string>
+			</dict>
+			<dict>
+				<key>action</key>
+				<string>openInBrowser:</string>
+				<key>cell</key>
+				<string>PSLinkCell</string>
+				<key>url</key>
+				<string>https://twitter.com/_Easy_Z_</string>
+				<key>label</key>
+				<string>Easy Z</string>
+				<key>sublabel</key>
+				<string>Fearless Beta Tester</string>
+			</dict>
+		</array>
+		<key>title</key>
+		<string>Special Thanks</string>
+	</dict>
+</plist>

@@ -24,6 +24,14 @@
 				<key>label</key>
 				<string>Preset Image Mode</string>
 			</dict>
+			<dict>
+				<key>cell</key>
+				<string>PSGroupCell</string>
+				<key>footerText</key>
+				<string>MidnightChips © 2018</string>
+				<key>footerAlignment</key>
+				<integer>1</integer>
+			</dict>
 		</array>
 		<key>title</key>
 		<string>Presets</string>

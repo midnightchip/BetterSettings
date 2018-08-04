@@ -79,6 +79,101 @@ static void notificationCallback(CFNotificationCenterRef center, void *observer,
   NSData *tImage = (NSData *)[[NSUserDefaults standardUserDefaults] objectForKey:@"backgroundImage" inDomain:imagePlist];
   tableImage = tImage;
 }
+
+//Set Preset on first load
+
+@interface UIApplication (existing)
+- (void)suspend;
+- (void)terminateWithSuccess;
+@end
+@interface UIApplication (close)
+- (void)close;
+@end
+@implementation UIApplication (close)
+
+- (void)close{
+    // Check if the current device supports background execution.
+BOOL multitaskingSupported = NO;
+    // iOS < 4.0 compatibility check.
+if ([[UIDevice currentDevice] respondsToSelector:@selector(isMultitaskingSupported)])
+        multitaskingSupported = [UIDevice currentDevice].multitaskingSupported;
+    // Good practice, we're using a private method.
+if ([self respondsToSelector:@selector(suspend)])
+{
+  if (multitaskingSupported)
+  {
+    [self beginBackgroundTaskWithExpirationHandler:^{}];
+            // Change the delay to your liking. I think 0.4 seconds feels just right (the "close" animation lasts 0.3 seconds).
+            [self performSelector:@selector(exit) withObject:nil afterDelay:0.4];
+          }
+          [self suspend];
+        }
+        else
+        [self exit];
+      }
+- (void)exit{
+    // Again, good practice.
+    if ([self respondsToSelector:@selector(terminateWithSuccess)])
+    [self terminateWithSuccess];
+    else
+    exit(EXIT_SUCCESS);
+  }
+
+@end
+
+%hook PSUIPrefsListController
+@interface PSUIPrefsListController : UIViewController
+@end
+
+@interface SBApplication : NSObject
+@end
+
+@interface SBApplicationController : NSObject
++ (id)sharedInstance;
+- (id)applicationWithBundleIdentifier:(id)arg1;
+@end
+
+-(void)viewDidAppear:(BOOL)animated{
+
+  %orig;
+  NSFileManager *fileManager = [NSFileManager defaultManager];
+  if (![fileManager fileExistsAtPath:@"/var/mobile/Library/Preferences/BetterSettings/preset"]){
+    UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Hi!"
+                               message:@"It appears this is your first time using this tweak. Which Preset would you like?"
+                               preferredStyle:UIAlertControllerStyleAlert];
+
+    UIAlertAction* bubble = [UIAlertAction actionWithTitle:@"Dark Bubbles" style:UIAlertActionStyleDefault
+                                   handler:^(UIAlertAction * action) {
+                                     [fileManager createDirectoryAtPath:@"/var/mobile/Library/Preferences/BetterSettings/" withIntermediateDirectories:NO attributes:nil error:nil];
+                                     [fileManager createFileAtPath:@"/var/mobile/Library/Preferences/BetterSettings/preset" contents:nil attributes:nil];
+                                     NSDictionary* dict = @{@"statusColor":@"FFFFFF", @"tableColor":@"000000", @"enableImage":@NO, @"tintNav":@NO, @"navTint":@"000000", @"cornerRadius":@12, @"bubbleColor":@"26252A", @"textTint":@"FFFFFF", @"borderWidth":@3,@"borderColor":@"000000",@"bubbleSelectionColor":@"000000", @"hideIcons":@NO, @"CleanSettings":@NO};
+                                     [dict writeToFile:@"/var/mobile/Library/Preferences/com.midnightchips.bettersettings.plist" atomically:YES];
+                                     [[UIApplication sharedApplication] close];
+                                     [[UIApplication sharedApplication] terminateWithSuccess];
+                                   }];
+  UIAlertAction* image = [UIAlertAction actionWithTitle:@"Transparent with Background Image" style:UIAlertActionStyleDefault
+                                  handler:^(UIAlertAction * action) {
+                                    [fileManager createDirectoryAtPath:@"/var/mobile/Library/Preferences/BetterSettings/" withIntermediateDirectories:NO attributes:nil error:nil];
+                                    [fileManager createFileAtPath:@"/var/mobile/Library/Preferences/BetterSettings/preset" contents:nil attributes:nil];
+                                    NSDictionary* dict = @{@"statusColor":@"FFFFFFFF", @"tableColor":@"00000000", @"enableImage":@YES, @"tintNav":@YES, @"navTint":@"42000000", @"cornerRadius":@0, @"bubbleColor":@"0026252A", @"textTint":@"FFFFFF", @"borderWidth":@0,@"borderColor":@"00000000",@"bubbleSelectionColor":@"34000000", @"hideIcons":@NO, @"CleanSettings":@NO};
+                                    [dict writeToFile:@"/var/mobile/Library/Preferences/com.midnightchips.bettersettings.plist" atomically:YES];
+                                    if (![fileManager fileExistsAtPath:@"/var/mobile/Library/Preferences/com.midnightchips.bettersettings.bgimage.plist"]){
+                                      NSData *data =[[NSFileManager defaultManager] contentsAtPath:@"/Library/PreferenceBundles/BetterSettings.bundle/image.plist"];
+                                      [data writeToFile:@"/var/mobile/Library/Preferences/com.midnightchips.bettersettings.bgimage.plist" atomically:YES];
+                                      [[UIApplication sharedApplication] close];
+                                      [[UIApplication sharedApplication] terminateWithSuccess];
+                                    }
+
+                                  }];
+
+    [alert addAction:bubble];
+    [alert addAction:image];
+    [self presentViewController:alert animated:YES completion:nil];
+
+}
+
+}
+%end
 /*
  _______ _________ _______ _________          _______  ______   _______  _______
 (  ____ \\__   __/(  ___  )\__   __/|\     /|(  ____ \(  ___ \ (  ___  )(  ____ )
@@ -100,7 +195,7 @@ static void notificationCallback(CFNotificationCenterRef center, void *observer,
 -(void)layoutSubviews {
     %orig;
 
-    self.backgroundColor = [prefs colorForKey:@"statusColor"];//statusColor];
+    //self.backgroundColor = [prefs colorForKey:@"statusColor"];//statusColor];
     self.foregroundColor = [prefs colorForKey:@"statusColor"];//statusColor];
 }
 

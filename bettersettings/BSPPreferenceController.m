@@ -84,6 +84,10 @@ UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"Close Settings" 
 [alert addAction:defaultAction];
 [self presentViewController:alert animated:YES completion:nil];
 }
+-(void)BS_applySettings{
+  [[UIApplication sharedApplication] close];
+  [[UIApplication sharedApplication] terminateWithSuccess];
+}
 @end
 @implementation BSPPreferenceController
 

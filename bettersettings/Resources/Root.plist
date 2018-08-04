@@ -377,7 +377,9 @@
 				<key>defaultsPath</key>
 				<string>/Library/PreferenceBundles/BetterSettings.bundle/defaults.plist</string>
 				<key>label</key>
-				<string>Backup, Restore &amp; Reset</string>
+				<string>Backup, Restore &amp; Reset(Close Settings after use)</string>
+				<key>callbackAction</key>
+				<string>BS_applySettings</string>
 			</dict>
 			<dict>
 				<key>action</key>
@@ -388,6 +390,16 @@
 				<string>Support</string>
 				<key>label</key>
 				<string>Support &amp; Creator</string>
+			</dict>
+			<dict>
+				<key>action</key>
+				<string>pushToView:</string>
+				<key>cell</key>
+				<string>PSLinkCell</string>
+				<key>pushToPlist</key>
+				<string>Thanks</string>
+				<key>label</key>
+				<string>Special Thanks To:</string>
 			</dict>
 			<dict>
 				<key>cell</key>
