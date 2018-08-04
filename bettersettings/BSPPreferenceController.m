@@ -1,6 +1,6 @@
 #include "BSPPreferenceController.h"
 #include <CSPreferences/libCSPUtilities.h>
-#import <spawn.h>
+
 
 @interface UIApplication (existing)
 - (void)suspend;
@@ -71,10 +71,6 @@ UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAler
 }
 -(void)applySettings{
   [[UIApplication sharedApplication] close];
-  pid_t pid;
-    int status;
-    const char* args[] = {"killall", "-9", "Preferences", NULL};
-    posix_spawn(&pid, "/usr/bin/killall", NULL, NULL, (char* const*)args, NULL);
-    waitpid(pid, &status, WEXITED);
+  [[UIApplication sharedApplication] terminateWithSuccess];
 }
 @end
