@@ -135,7 +135,7 @@ static void notificationCallback(CFNotificationCenterRef center, void *observer,
     }
 
   }else {
-    self.backgroundColor = [prefs colorForKey:@"statusColor"];
+    self.backgroundColor = [prefs colorForKey:@"tableColor"];
   }
 }
 %end
@@ -180,7 +180,7 @@ static void notificationCallback(CFNotificationCenterRef center, void *observer,
       }
 
     }else{
-      [self setBackgroundColor:[prefs colorForKey:@"statusColor"]];
+      [self setBackgroundColor:[prefs colorForKey:@"tableColor"]];
     }
 
 
@@ -203,7 +203,7 @@ static void notificationCallback(CFNotificationCenterRef center, void *observer,
     }
 
   }else{
-    %orig([prefs colorForKey:@"statusColor"]);
+    %orig([prefs colorForKey:@"tableColor"]);
   }
 
 }
@@ -219,7 +219,7 @@ static void notificationCallback(CFNotificationCenterRef center, void *observer,
     }
 
   }else{
-    %orig([prefs colorForKey:@"statusColor"]);
+    %orig([prefs colorForKey:@"tableColor"]);
   }
 }
 %end
@@ -322,7 +322,7 @@ _____                     _     ____
     UIImage *bgImage = [[UIImage imageWithData:tableImage] imageScaledToSize:[[UIApplication sharedApplication] keyWindow].bounds.size];
     self.backgroundView = [[UIImageView alloc] initWithImage: bgImage];
   }else{
-    self.backgroundColor = [prefs colorForKey:@"statusColor"];
+    self.backgroundColor = [prefs colorForKey:@"tableColor"];
   }
 
 }
