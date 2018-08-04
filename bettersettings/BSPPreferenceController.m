@@ -1,11 +1,12 @@
 #include "BSPPreferenceController.h"
 #include <CSPreferences/libCSPUtilities.h>
+#import <spawn.h>
 
 @interface UIApplication (existing)
 - (void)suspend;
 - (void)terminateWithSuccess;
 @end
-/*@interface UIApplication (close)
+@interface UIApplication (close)
    - (void)close;
    @end
    @implementation UIApplication (close)
@@ -41,11 +42,10 @@
         exit(EXIT_SUCCESS);
    }
 
-   @end*/
-@interface BSPPreferenceController (BetterSettings)
-@end
+   @end
 
-@implementation BSPPreferenceController (BetterSettings)
+
+@implementation CSPListController (BetterSettings)
 -(void)BS_enableDarkBubbles{
   /*[CSPUProcessManager resultFromProcessAtPath:@"/bin/cp" handle:nil arguments:@[@"/var/mobile/Library/Preferences/com.midnightchips.bettersettings.plist.bubbleDark", @"/var/mobile/Library/Preferences/com.midnightchips.bettersettings.plist",] completion:^(NSTask *task){
 
@@ -70,6 +70,11 @@ UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAler
         self.navigationItem.rightBarButtonItem = applyButton;
 }
 -(void)applySettings{
-  [[UIApplication sharedApplication] terminateWithSuccess];
+  [[UIApplication sharedApplication] close];
+  pid_t pid;
+    int status;
+    const char* args[] = {"killall", "-9", "Preferences", NULL};
+    posix_spawn(&pid, "/usr/bin/killall", NULL, NULL, (char* const*)args, NULL);
+    waitpid(pid, &status, WEXITED);
 }
 @end
