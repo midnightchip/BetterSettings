@@ -1,4 +1,5 @@
 #include "BSPPreferenceController.h"
+#include <CSPreferences/libCSPUtilities.h>
 
 @interface UIApplication (existing)
 - (void)suspend;
@@ -41,8 +42,26 @@
    }
 
    @end*/
+@interface BSPPreferenceController (BetterSettings)
+@end
 
+@implementation BSPPreferenceController (BetterSettings)
+-(void)BS_enableDarkBubbles{
+  /*[CSPUProcessManager resultFromProcessAtPath:@"/bin/cp" handle:nil arguments:@[@"/var/mobile/Library/Preferences/com.midnightchips.bettersettings.plist.bubbleDark", @"/var/mobile/Library/Preferences/com.midnightchips.bettersettings.plist",] completion:^(NSTask *task){
 
+        [[UIApplication sharedApplication] terminateWithSuccess];
+}];*/
+UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"My Alert"
+                           message:@"This is an alert."
+                           preferredStyle:UIAlertControllerStyleAlert];
+
+UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                               handler:^(UIAlertAction * action) {}];
+
+[alert addAction:defaultAction];
+[self presentViewController:alert animated:YES completion:nil];
+}
+@end
 @implementation BSPPreferenceController
 
 - (void)viewWillAppear:(BOOL)animated {
