@@ -1,5 +1,5 @@
 #include <CSPreferences/CSPreferencesProvider.h>
-#define prefs = [BSProvider sharedProvider];
+#define prefs [BSProvider sharedProvider]
 
 @interface BSProvider : NSObject
 
