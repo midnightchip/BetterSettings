@@ -242,8 +242,6 @@
 				<false/>
 				<key>label</key>
 				<string>Set Border Radius</string>
-				<key>sublabel</key>
-				<string>Set Border Radius:\n\nSet how much its curved</string>
 				<key>PostNotification</key>
 				<string>com.midnightchips.bettersettings.prefschanged</string>
 				<key>defaults</key>
@@ -300,6 +298,20 @@
 				<string>Thanks to Lucifers_Circle for the help with this one</string>
 				<key>key</key>
 				<string>hideIcons</string>
+				<key>PostNotification</key>
+				<string>com.midnightchips.bettersettings.prefschanged</string>
+				<key>defaults</key>
+				<string>com.midnightchips.bettersettings</string>
+			</dict>
+			<dict>
+				<key>cell</key>
+				<string>PSSwitchCell</string>
+				<key>label</key>
+				<string>Clean Settings</string>
+				<key>sublabel</key>
+				<string>Thanks to Lucifers_Circle for this one</string>
+				<key>key</key>
+				<string>CleanSettings</string>
 				<key>PostNotification</key>
 				<string>com.midnightchips.bettersettings.prefschanged</string>
 				<key>defaults</key>

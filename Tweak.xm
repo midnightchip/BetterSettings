@@ -3,6 +3,7 @@
 #import <UIKit/UIKit.h>
 #include <CSColorPicker/CSColorPicker.h>
 #import <libimagepicker.h>
+#import "BSProvider.h"
 //#define rgb(r, g, b) [UIColor colorWithRed:(float)r / 255.0 green:(float)g / 255.0 blue:(float)b / 255.0 alpha:1.0]
 
 
@@ -70,46 +71,11 @@ static NSString *imagePlist = @"com.midnightchips.bettersettings.image";
 static NSString *nsNotificationString = @"com.midnightchips.bettersettings.prefschanged";
 static NSString *nsPrefPlistPath = @"/User/Library/Preferences/com.midnightchips.bettersettings.plist";
 
-static NSString *statusColor;
-static NSString *tableColor;
-static NSString *bubbleColor;
-static NSString *borderColor;
-static NSString *bubbleSelectionColor;
-static NSString *navTint;
-static NSString *textTint;
-
-static float cornerRadius;
-static float borderWidth;
-
-static BOOL enableImage;
-static BOOL tintNav;
-static BOOL enableBubbles;
-static BOOL hideIcons;
-static BOOL adaptiveColor;
-
 static UIImage *textImage;
 static NSData *tableImage;
 
 static void notificationCallback(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo) {
-  //Colors
-  NSDictionary *prefs = [NSDictionary dictionaryWithContentsOfFile:nsPrefPlistPath] ? : [NSDictionary new];
-  statusColor = prefs[@"statusColor"];
-  tableColor = prefs[@"tableColor"];
-  bubbleColor = prefs[@"bubbleColor"];
-  borderColor = prefs[@"borderColor"];
-  navTint = prefs[@"navTint"];
-  textTint = prefs[@"textTint"];
-
-  bubbleSelectionColor = prefs[@"bubbleSelectionColor"];
-  enableImage = prefs[@"enableImage"] ? [prefs[@"enableImage"]  boolValue] : NO;
-  enableBubbles = prefs[@"enableBubbles"] ? [prefs[@"enableBubbles"]  boolValue] : NO;
-  tintNav = prefs[@"tintNav"] ? [prefs[@"tintNav"]  boolValue] : NO;
-  hideIcons = prefs[@"hideIcons"] ? [prefs[@"hideIcons"]  boolValue] : NO;
-  adaptiveColor = prefs[@"adaptiveColor"] ? [prefs[@"adaptiveColor"]  boolValue] : NO;
-
-  cornerRadius = [prefs[@"cornerRadius"] floatValue];
-  borderWidth = [prefs[@"borderWidth"] floatValue];
-
+  //Image
   NSData *tImage = (NSData *)[[NSUserDefaults standardUserDefaults] objectForKey:@"backgroundImage" inDomain:imagePlist];
   tableImage = tImage;
 }
@@ -134,8 +100,8 @@ static void notificationCallback(CFNotificationCenterRef center, void *observer,
 -(void)layoutSubviews {
     %orig;
 
-    self.backgroundColor = [UIColor colorFromHexString:statusColor];
-    self.foregroundColor = [UIColor colorFromHexString:statusColor];
+    self.backgroundColor = [UIColor colorFromHexString:[prefs stringForKey:@"statusColor"]];//statusColor];
+    self.foregroundColor = [UIColor colorFromHexString:[prefs stringForKey:@"statusColor"]];//statusColor];
 }
 
 %end
@@ -148,7 +114,7 @@ static void notificationCallback(CFNotificationCenterRef center, void *observer,
 
 -(void)layoutSubviews {
     %orig;
-    self.foregroundColor = [UIColor colorFromHexString:statusColor];
+    self.foregroundColor = [UIColor colorFromHexString:[prefs stringForKey:@"statusColor"]];//statusColor];
 }
 
 %end
@@ -161,15 +127,15 @@ static void notificationCallback(CFNotificationCenterRef center, void *observer,
 //set to clear when using background option, or blurred
 -(void)layoutSubviews {
   %orig;
-  if (enableImage){
-    if(tintNav){
-      self.backgroundColor = [UIColor colorFromHexString:navTint];
+  if ([prefs boolForKey:@"enableImage"]];){
+    if([prefs boolForKey:@"tintNav"]){
+      self.backgroundColor = [UIColor colorFromHexString:[prefs stringForKey:@"navTint"]];
     }else{
       self.backgroundColor = [UIColor clearColor];
     }
 
   }else {
-    self.backgroundColor = [UIColor colorFromHexString:tableColor];
+    self.backgroundColor = [UIColor colorFromHexString:[prefs stringForKey:@"statusColor"]];
   }
 }
 %end
@@ -206,15 +172,15 @@ static void notificationCallback(CFNotificationCenterRef center, void *observer,
     [self setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
 
     //Set BackgroundColor of NavBar, clear for backgroundImage
-    if(enableImage){
-      if(tintNav){
-        [self setBackgroundColor:[UIColor colorFromHexString:navTint]];
+    if([prefs boolForKey:@"enableImage"]){
+      if([prefs boolForKey:@"tintNav"]){
+        [self setBackgroundColor:[UIColor colorFromHexString:[prefs stringForKey:@"navTint"]]];
       }else{
         [self setBackgroundColor:[UIColor clearColor]];
       }
 
     }else{
-      [self setBackgroundColor:[UIColor colorFromHexString:tableColor]];
+      [self setBackgroundColor:[UIColor colorFromHexString:[prefs stringForKey:@"statusColor"]]];
     }
 
 
@@ -229,15 +195,15 @@ static void notificationCallback(CFNotificationCenterRef center, void *observer,
 //iPX Fix wierd gap Clear for background, color otherwise
 %hook _UIBarBackground
 - (void) setBackgroundColor:(UIColor *)color {
-  if(enableImage){
-    if(tintNav){
-      %orig([UIColor colorFromHexString:navTint]);
+  if([prefs boolForKey:@"enableImage"]){
+    if([prefs boolForKey:@"tintNav"]){
+      %orig([UIColor colorFromHexString:[prefs stringForKey:@"navTint"]]);
     }else{
       %orig([UIColor clearColor]);
     }
 
   }else{
-    %orig([UIColor colorFromHexString:tableColor]);
+    %orig([UIColor colorFromHexString:[prefs stringForKey:@"statusColor"]]);
   }
 
 }
@@ -245,15 +211,15 @@ static void notificationCallback(CFNotificationCenterRef center, void *observer,
 //Stupid Fix for Cephi atm, until something better comes about, Clear for background, color otherwise
 %hook PSKeyboardNavigationSearchBar
 - (void) setBackgroundColor:(UIColor *)color {
-  if(enableImage){
-    if(tintNav){
-      %orig([UIColor colorFromHexString:navTint]);
+  if([prefs boolForKey:@"enableImage"]){
+    if([prefs boolForKey:@"tintNav"]){
+      %orig([UIColor colorFromHexString:[prefs stringForKey:@"navTint"]]);
     }else{
       %orig([UIColor clearColor]);
     }
 
   }else{
-    %orig([UIColor colorFromHexString:tableColor]);
+    %orig([UIColor colorFromHexString:[prefs stringForKey:@"statusColor"]]);
   }
 }
 %end
@@ -271,12 +237,12 @@ _____                     _     ____
 -(void)didMoveToWindow{
   %orig;
   self.backgroundColor = [UIColor clearColor];
-  if(adaptiveColor){
+  if([prefs boolForKey:@"adaptiveColor"]){
     UIImage *textImage = [UIImage imageWithData:tableImage];
     UIColor *avgColor = imageAverageColor(textImage);
     self.textColor = avgColor;
   }else{
-    self.textColor = [UIColor colorFromHexString:textTint];
+    self.textColor = [UIColor colorFromHexString:[prefs stringForKey:@"textTint"]];
   }
 
 }
@@ -298,26 +264,26 @@ _____                     _     ____
 
     //ENDED ON CORNER RADIUS
     //TODO FINISH THIS :P
-    [self.layer setCornerRadius:cornerRadius];
+    [self.layer setCornerRadius:[prefs floatForKey:@"cornerRadius"]];
 
-    [self setBackgroundColor: [UIColor colorFromHexString: bubbleColor]];//rgb(38, 37, 42)];
+    [self setBackgroundColor: [UIColor colorFromHexString:[prefs stringForKey:@"bubbleColor"]];//rgb(38, 37, 42)];
     //Border Color and Width
-    [self.layer setBorderColor:[UIColor colorFromHexString: borderColor].CGColor];
-    [self.layer setBorderWidth:borderWidth];
+    [self.layer setBorderColor:[UIColor colorFromHexString:[prefs stringForKey:@"borderColor"]].CGColor];
+    [self.layer setBorderWidth:[prefs floatForKey:@"borderWidth"]];
 
     //Set Text Color
-    if(adaptiveColor){
+    if([prefs boolForKey:@"adaptiveColor"]){
       UIImage *textImage = [UIImage imageWithData:tableImage];
       UIColor *avgColor = imageAverageColor(textImage);
       self.textLabel.textColor = avgColor;
       self.detailTextLabel.textColor = avgColor;
     }else{
-      self.textLabel.textColor = [UIColor colorFromHexString:textTint];
-      self.detailTextLabel.textColor = [UIColor colorFromHexString:textTint];
+      self.textLabel.textColor = [UIColor colorFromHexString:[prefs stringForKey:@"textTint"]];
+      self.detailTextLabel.textColor = [UIColor colorFromHexString:[prefs stringForKey:@"textTint"]];
     }
 
     self.clipsToBounds = YES;
-    MSHookIvar<UIColor*>(self, "_selectionTintColor") = [UIColor colorFromHexString:bubbleSelectionColor];
+    MSHookIvar<UIColor*>(self, "_selectionTintColor") = [UIColor colorFromHexString:[prefs stringForKey:@"bubbleSelectionColor"]];
 
 
 
@@ -352,11 +318,11 @@ _____                     _     ____
   //Set the background Color to a Color or to an Image
   //self.backgroundColor = [UIColor blackColor];
   //Set the Background to an Image, Importing UIImage+ScaledImage.h for this
-  if(enableImage){              //TODO CHANGE THE IMAGE TO PICKING AN IMAGE
+  if([prefs boolForKey:@"enableImage"]){              //TODO CHANGE THE IMAGE TO PICKING AN IMAGE
     UIImage *bgImage = [[UIImage imageWithData:tableImage] imageScaledToSize:[[UIApplication sharedApplication] keyWindow].bounds.size];
     self.backgroundView = [[UIImageView alloc] initWithImage: bgImage];
   }else{
-    self.backgroundColor = [UIColor colorFromHexString:tableColor];
+    self.backgroundColor = [UIColor colorFromHexString:[prefs stringForKey:@"statusColor"]];
   }
 
 }
@@ -367,12 +333,12 @@ _____                     _     ____
 %hook UILabel
 -(void)layoutSubviews{
   %orig;
-  if(adaptiveColor){
+  if([prefs boolForKey:@"adaptiveColor"]){
     UIImage *textImage = [UIImage imageWithData:tableImage];
     UIColor *avgColor = imageAverageColor(textImage);
     self.textColor = avgColor;
   }else{
-    self.textColor = [UIColor colorFromHexString:textTint];
+    self.textColor = [UIColor colorFromHexString:[prefs stringForKey:@"textTint"]];
   }
   self.backgroundColor = [UIColor clearColor];
 }
@@ -404,10 +370,10 @@ _____                     _     ____
 %hook PRXBubbleBackgroundView
 -(void)layoutSubviews{
   %orig;
-  if(enableImage){
+  if([prefs boolForKey:@"enableImage"]){
     self.backgroundColor = [UIColor clearColor];//rgb(38, 37, 42);
   }else{
-    self.backgroundColor = [UIColor colorFromHexString:bubbleColor];
+    self.backgroundColor = [UIColor colorFromHexString:[prefs stringForKey:@"bubbleColor"]];
   }
 
 }
@@ -431,11 +397,11 @@ _____                     _     ____
   //Lock Glyph
   UIImageView *lock = MSHookIvar<UIImageView*>(self, "_lockImageView");
   lock.image = [lock.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-  [lock setTintColor:[UIColor colorFromHexString:textTint]];
+  [lock setTintColor:[UIColor colorFromHexString:[prefs stringForKey:@"textTint"]]];
   //Wifi Glyph
   UIImageView *wifi = MSHookIvar<UIImageView*>(self, "_signalImageView");
   wifi.image = [wifi.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-  [wifi setTintColor:[UIColor colorFromHexString:textTint]];
+  [wifi setTintColor:[UIColor colorFromHexString:[prefs stringForKey:@"textTint"]]];
 
 }
 %end
@@ -520,7 +486,7 @@ _____                     _     ____
 %hook PSTableCell
 - (void)setIcon:(id)arg1 {
   //Yes This way makes no sense. Leave me alone
-  if(!hideIcons){
+  if(![prefs boolForKey:@"hideIcons"]){
     //return Nothing
     return %orig;
   }else{
@@ -530,18 +496,99 @@ _____                     _     ____
 }
 %end
 //This one removes 3rd party icons, probably wont use, but is useful
-/*%hook PSUIPrefsListController
-- (void)_reallyLoadThirdPartySpecifiersForApps:(id)arg1 withCompletion:(id)arg2 {
-    if(Remove3rdPartyAppsiNSettings){
-        arg1 = NULL;
-        arg2 = NULL;
+
+//cleansettings
+BOOL enabled = YES;
+BOOL shouldIgnoreRules = YES;
+CGFloat inset = 16.0; //the indent
+CGFloat customCornerRadius = 10;
+
+/* indent the table view */
+%hook UITableView
+
+/* iOS 6 - 11.1.2 */
+- (UIEdgeInsets)_sectionContentInset {
+    if([prefs boolForKey:@"CleanSettings"]) {
+        UIEdgeInsets orig = %orig;
+        if (!shouldIgnoreRules && (orig.left > 0 || orig.right > 0))
+        return orig;
+        return UIEdgeInsetsMake(orig.top, inset, orig.bottom, inset);
+    }
+    else {return %orig;}
+}
+
+/* iOS 6 - 11.1.2 */
+- (void)_setSectionContentInset:(UIEdgeInsets)insets {
+    if([prefs boolForKey:@"CleanSettings"]) {
+        if (enabled && shouldIgnoreRules)
+        %orig(UIEdgeInsetsMake(insets.top, inset, insets.bottom, inset));
+        else
         %orig;
     }
     else {%orig;}
 }
-%end*/
+/* Remove separator lines
+* (iOS 6 - 11.1.2)
+*/
+-(void)setDelegate:(id)arg1 {
+    if([prefs boolForKey:@"CleanSettings"]) {
+        self.separatorStyle = UITableViewCellSeparatorStyleNone;
+        %orig;
+    }
+    else {%orig;}
+}
+
+%end
+
+/* rounded corners */
+
+@interface UIGroupTableViewCellBackground : UIView
+@end
+
+%group iOS11
+%hook UIGroupTableViewCellBackground
+/* iOS 11+ */
+
+-(void)didMoveToSuperview {
+    %orig;
+    if([prefs boolForKey:@"CleanSettings"]){
+      self.layer.shadowRadius = /*default 3*/ 1;
+      self.layer.shadowOpacity = 0.5;//zoop
+      self.layer.shadowOffset = CGSizeMake(0, 0); //negative y is the top, positive bottom
+    }else{
+      %orig;
+    }
+
+}
+
++(id)_roundedRectBezierPathInRect:(CGRect)arg1 withSectionLocation:(int)arg2 sectionCornerRadius:(double)arg3 cornerRadiusAdjustment:(double)arg4 sectionBorderWidth:(double)arg5 forBorder:(BOOL)arg6 {
+    if([prefs boolForKey:@"CleanSettings"]) {
+        arg4 = customCornerRadius;
+        return %orig;
+    }else {
+      return %orig;
+    }
+}
+%end
+%end
+
+/* TODO:
+
+- add subtle backdrop shadow behind the tableView to make it look cleaner and much better
+- add prefs so the user can change anything they want
+
+*/
+
+
+
+
 
 %ctor{
+  //Cleansettings
+  %init(_ungrouped); //for all other code that isn't grouped
+  if (kCFCoreFoundationVersionNumber > 1443)
+  %init(iOS11);
+  //End CleanSettings
   notificationCallback(NULL, NULL, NULL, NULL, NULL);
   CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(),
     NULL,
