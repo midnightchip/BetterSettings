@@ -47,16 +47,39 @@
 
 @implementation CSPListController (BetterSettings)
 -(void)BS_enableDarkBubbles{
-  /*[CSPUProcessManager resultFromProcessAtPath:@"/bin/cp" handle:nil arguments:@[@"/var/mobile/Library/Preferences/com.midnightchips.bettersettings.plist.bubbleDark", @"/var/mobile/Library/Preferences/com.midnightchips.bettersettings.plist",] completion:^(NSTask *task){
-
-        [[UIApplication sharedApplication] terminateWithSuccess];
-}];*/
-UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"My Alert"
-                           message:@"This is an alert."
+  NSDictionary* dict = @{@"statusColor":@"FFFFFF", @"tableColor":@"000000", @"enableImage":@NO, @"tintNav":@NO, @"navTint":@"000000", @"cornerRadius":@12, @"bubbleColor":@"26252A", @"textTint":@"FFFFFF", @"borderWidth":@3,@"borderColor":@"000000",@"bubbleSelectionColor":@"000000", @"hideIcons":@NO, @"CleanSettings":@NO};
+  [dict writeToFile:@"/var/mobile/Library/Preferences/com.midnightchips.bettersettings.plist" atomically:YES];
+UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Applied"
+                           message:@"Settings Applied!"
                            preferredStyle:UIAlertControllerStyleAlert];
 
-UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
-                               handler:^(UIAlertAction * action) {}];
+UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"Close Settings" style:UIAlertActionStyleDefault
+                               handler:^(UIAlertAction * action) {
+                                 [[UIApplication sharedApplication] close];
+                                 [[UIApplication sharedApplication] terminateWithSuccess];
+                               }];
+
+[alert addAction:defaultAction];
+[self presentViewController:alert animated:YES completion:nil];
+}
+
+-(void)BS_enableImage{
+  NSDictionary* dict = @{@"statusColor":@"FFFFFFFF", @"tableColor":@"00000000", @"enableImage":@YES, @"tintNav":@YES, @"navTint":@"42000000", @"cornerRadius":@0, @"bubbleColor":@"0026252A", @"textTint":@"FFFFFF", @"borderWidth":@0,@"borderColor":@"00000000",@"bubbleSelectionColor":@"34000000", @"hideIcons":@NO, @"CleanSettings":@NO};
+  [dict writeToFile:@"/var/mobile/Library/Preferences/com.midnightchips.bettersettings.plist" atomically:YES];
+  NSFileManager *fileManager = [NSFileManager defaultManager];
+  if (![fileManager fileExistsAtPath:@"/var/mobile/Library/Preferences/com.midnightchips.bettersettings.bgimage.plist"]){
+    NSData *data =[[NSFileManager defaultManager] contentsAtPath:@"/Library/PreferenceBundles/BetterSettings.bundle/image.plist"];
+    [data writeToFile:@"/var/mobile/Library/Preferences/com.midnightchips.bettersettings.bgimage.plist" atomically:YES];
+}
+UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Applied"
+                           message:@"Settings Applied!"
+                           preferredStyle:UIAlertControllerStyleAlert];
+
+UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"Close Settings" style:UIAlertActionStyleDefault
+                               handler:^(UIAlertAction * action) {
+                                 [[UIApplication sharedApplication] close];
+                                 [[UIApplication sharedApplication] terminateWithSuccess];
+                               }];
 
 [alert addAction:defaultAction];
 [self presentViewController:alert animated:YES completion:nil];

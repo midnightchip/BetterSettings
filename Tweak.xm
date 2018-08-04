@@ -67,7 +67,7 @@ any value thats not bool you should be able to do prefs[@"key"] integerValue | f
 and for string values you can just do prefs[@"key"]; bool is the only type that requires the extra steps shown above
 */
 static NSString *nsDomainString = @"/User/Library/Preferences/com.midnightchips.bettersettingsmain";
-static NSString *imagePlist = @"com.midnightchips.bettersettings.image";
+static NSString *imagePlist = @"com.midnightchips.bettersettings.bgimage";
 static NSString *nsNotificationString = @"com.midnightchips.bettersettings.prefschanged";
 static NSString *nsPrefPlistPath = @"/User/Library/Preferences/com.midnightchips.bettersettings.plist";
 
@@ -232,7 +232,7 @@ static void notificationCallback(CFNotificationCenterRef center, void *observer,
 %hook UISearchBar
 -(UITextField *)searchField {
     UITextField* field = %orig;
-    field.textColor = [prefs colorForKey:@"textTint"]
+    field.textColor = [prefs colorForKey:@"textTint"];
     return field;
 }
 %end
@@ -254,7 +254,7 @@ _____                     _     ____
     UIColor *avgColor = imageAverageColor(textImage);
     self.textColor = avgColor;
   }else{
-    self.textColor = [prefs colorForKey:@"textTint"]//[prefs colorForKey:@"textTint"];
+    self.textColor = [UIColor blackColor];//[prefs colorForKey:@"textTint"];//[prefs colorForKey:@"textTint"];
   }
 
 }

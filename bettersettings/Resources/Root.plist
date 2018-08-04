@@ -84,13 +84,11 @@
 				<key>action</key>
 				<string>chooseImage</string>
 				<key>defaults</key>
-				<string>com.midnightchips.bettersettings.image</string>
+				<string>com.midnightchips.bettersettings.bgimage</string>
 				<key>key</key>
 				<string>backgroundImage</string>
 				<key>PostNotification</key>
-				<string>com.midnightchips.bettersettings.image.post</string>
-				<key>defaultsPath</key>
-				<string>/Library/PreferenceBundles/BetterSettings.bundle</string>
+				<string>com.midnightchips.bettersettings.bgimage.post</string>
 			</dict>
 			<dict>
 				<key>cell</key>
@@ -233,6 +231,7 @@
 				<key>defaultsPath</key>
 				<string>/Library/PreferenceBundles/BetterSettings.bundle</string>
 			</dict>
+
 			<dict>
 				<key>cell</key>
 				<string>PSGroupCell</string>
@@ -365,6 +364,20 @@
 				<string>Presets</string>
 				<key>label</key>
 				<string>Preset Options</string>
+			</dict>
+			<dict>
+				<key>cell</key>
+				<string>PSLinkCell</string>
+				<key>detail</key>
+				<string>CSPBackupListViewController</string>
+				<key>isController</key>
+				<true/>
+				<key>PostNotification</key>
+				<string>com.midnightchips.bettersettings.prefschanged</string>
+				<key>defaultsPath</key>
+				<string>/Library/PreferenceBundles/BetterSettings.bundle/defaults.plist</string>
+				<key>label</key>
+				<string>Backup, Restore &amp; Reset</string>
 			</dict>
 			<dict>
 				<key>action</key>

@@ -14,6 +14,16 @@
 				<key>label</key>
 				<string>Dark Bubble Mode</string>
 			</dict>
+			<dict>
+				<key>action</key>
+				<string>BS_enableImage</string>
+				<key>cell</key>
+				<string>PSButtonCell</string>
+				<key>icon</key>
+				<string>patreon.png</string>
+				<key>label</key>
+				<string>Preset Image Mode</string>
+			</dict>
 		</array>
 		<key>title</key>
 		<string>Presets</string>
