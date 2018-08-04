@@ -163,7 +163,8 @@ static void notificationCallback(CFNotificationCenterRef center, void *observer,
     [self setBarStyle:UIBarStyleBlack];
 
     //Sets title Text to white
-    self.titleTextAttributes = @{NSForegroundColorAttributeName: [UIColor whiteColor]};
+
+    self.titleTextAttributes = @{NSForegroundColorAttributeName: [UIColor blackColor]};
 
     //Tints the Buttons
     self.tintColor = [UIColor greenColor];
@@ -224,6 +225,25 @@ static void notificationCallback(CFNotificationCenterRef center, void *observer,
 }
 %end
 
+
+@interface UISearchBarTextField : UITextField
+@end
+
+%hook UISearchBar
+/*-(void)layoutSubviews {
+    %orig;
+    UISearchBarTextField *textField = MSHookIvar<UISearchBarTextField *>(self, "_searchField");
+    textField.backgroundColor = [UIColor colorWithRed:0.16 green:0.16 blue:0.16 alpha:1.0];
+
+    UIView *bg = MSHookIvar<UIView *>(self, "_background");
+    bg.hidden = YES;
+}*/
+-(UITextField *)searchField {
+    UITextField* field = %orig;
+    field.textColor = [UIColor whiteColor];
+    return field;
+}
+%end
 /*
 _____                     _     ____
 / ____|                   | |   |  _ \
@@ -242,7 +262,7 @@ _____                     _     ____
     UIColor *avgColor = imageAverageColor(textImage);
     self.textColor = avgColor;
   }else{
-    self.textColor = [prefs colorForKey:@"textTint"];
+    self.textColor = [UIColor blackColor];//[prefs colorForKey:@"textTint"];
   }
 
 }
@@ -278,8 +298,8 @@ _____                     _     ____
       self.textLabel.textColor = avgColor;
       self.detailTextLabel.textColor = avgColor;
     }else{
-      self.textLabel.textColor = [prefs colorForKey:@"textTint"];
-      self.detailTextLabel.textColor = [prefs colorForKey:@"textTint"];
+      self.textLabel.textColor = [prefs colorForKey:@"textTint"];//[prefs colorForKey:@"textTint"];
+      self.detailTextLabel.textColor = [prefs colorForKey:@"textTint"];//[prefs colorForKey:@"textTint"];
     }
 
     self.clipsToBounds = YES;
@@ -292,6 +312,8 @@ _____                     _     ____
   //self.selectionTintColor = [UIColor blackColor];
 }
 %end
+
+
 
 %hook UITableView
 //Resize Image Interface and Implementation
