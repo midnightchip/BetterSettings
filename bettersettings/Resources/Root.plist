@@ -21,6 +21,8 @@
 				<string>FFFFFF</string>
 				<key>alpha</key>
 				<false/>
+				<key>defaultsPath</key>
+				<string>/Library/PreferenceBundles/BetterSettings.bundle</string>
 			</dict>
 			<dict>
 				<key>cell</key>
@@ -45,6 +47,8 @@
 				<string>000000</string>
 				<key>alpha</key>
 				<true/>
+				<key>defaultsPath</key>
+				<string>/Library/PreferenceBundles/BetterSettings.bundle</string>
 			</dict>
 			<dict>
 				<key>cell</key>
@@ -67,6 +71,8 @@
 				<string>com.midnightchips.bettersettings.prefschanged</string>
 				<key>defaults</key>
 				<string>com.midnightchips.bettersettings</string>
+				<key>defaultsPath</key>
+				<string>/Library/PreferenceBundles/BetterSettings.bundle</string>
 			</dict>
 			<dict>
 				<key>cell</key>
@@ -83,6 +89,8 @@
 				<string>backgroundImage</string>
 				<key>PostNotification</key>
 				<string>com.midnightchips.bettersettings.image.post</string>
+				<key>defaultsPath</key>
+				<string>/Library/PreferenceBundles/BetterSettings.bundle</string>
 			</dict>
 			<dict>
 				<key>cell</key>
@@ -99,6 +107,8 @@
 				<array>
 					<string>navTint</string>
 				</array>
+				<key>defaultsPath</key>
+				<string>/Library/PreferenceBundles/BetterSettings.bundle</string>
 			</dict>
 			<dict>
 				<key>PostNotification</key>
@@ -117,6 +127,8 @@
 				<string>000000</string>
 				<key>alpha</key>
 				<true/>
+				<key>defaultsPath</key>
+				<string>/Library/PreferenceBundles/BetterSettings.bundle</string>
 			</dict>
 
 			<dict>
@@ -150,6 +162,8 @@
 				<string>com.midnightchips.bettersettings.prefschanged</string>
 				<key>defaults</key>
 				<string>com.midnightchips.bettersettings</string>
+				<key>defaultsPath</key>
+				<string>/Library/PreferenceBundles/BetterSettings.bundle</string>
 			</dict>
 			<dict>
 				<key>cell</key>
@@ -174,6 +188,8 @@
 				<string>26252A</string>
 				<key>alpha</key>
 				<true/>
+				<key>defaultsPath</key>
+				<string>/Library/PreferenceBundles/BetterSettings.bundle</string>
 			</dict>
 			<dict>
 				<key>cell</key>
@@ -214,6 +230,8 @@
 				<string>FFFFFF</string>
 				<key>alpha</key>
 				<true/>
+				<key>defaultsPath</key>
+				<string>/Library/PreferenceBundles/BetterSettings.bundle</string>
 			</dict>
 			<dict>
 				<key>cell</key>
@@ -246,12 +264,16 @@
 				<string>com.midnightchips.bettersettings.prefschanged</string>
 				<key>defaults</key>
 				<string>com.midnightchips.bettersettings</string>
+				<key>defaultsPath</key>
+				<string>/Library/PreferenceBundles/BetterSettings.bundle</string>
 			</dict>
 			<dict>
 				<key>cell</key>
 				<string>PSGroupCell</string>
 				<key>footerAlignment</key>
 				<integer>1</integer>
+				<key>defaultsPath</key>
+				<string>/Library/PreferenceBundles/BetterSettings.bundle</string>
 			</dict>
 			<dict>
 				<key>PostNotification</key>
@@ -270,6 +292,8 @@
 				<string>000000</string>
 				<key>alpha</key>
 				<true/>
+				<key>defaultsPath</key>
+				<string>/Library/PreferenceBundles/BetterSettings.bundle</string>
 			</dict>
 			<dict>
 				<key>PostNotification</key>
@@ -288,6 +312,8 @@
 				<string>000000</string>
 				<key>alpha</key>
 				<true/>
+				<key>defaultsPath</key>
+				<string>/Library/PreferenceBundles/BetterSettings.bundle</string>
 			</dict>
 			<dict>
 				<key>cell</key>
@@ -302,6 +328,8 @@
 				<string>com.midnightchips.bettersettings.prefschanged</string>
 				<key>defaults</key>
 				<string>com.midnightchips.bettersettings</string>
+				<key>defaultsPath</key>
+				<string>/Library/PreferenceBundles/BetterSettings.bundle</string>
 			</dict>
 			<dict>
 				<key>cell</key>
@@ -316,6 +344,8 @@
 				<string>com.midnightchips.bettersettings.prefschanged</string>
 				<key>defaults</key>
 				<string>com.midnightchips.bettersettings</string>
+				<key>defaultsPath</key>
+				<string>/Library/PreferenceBundles/BetterSettings.bundle</string>
 			</dict>
 			<dict>
 				<key>cell</key>
