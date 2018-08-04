@@ -230,17 +230,9 @@ static void notificationCallback(CFNotificationCenterRef center, void *observer,
 @end
 
 %hook UISearchBar
-/*-(void)layoutSubviews {
-    %orig;
-    UISearchBarTextField *textField = MSHookIvar<UISearchBarTextField *>(self, "_searchField");
-    textField.backgroundColor = [UIColor colorWithRed:0.16 green:0.16 blue:0.16 alpha:1.0];
-
-    UIView *bg = MSHookIvar<UIView *>(self, "_background");
-    bg.hidden = YES;
-}*/
 -(UITextField *)searchField {
     UITextField* field = %orig;
-    field.textColor = [UIColor whiteColor];
+    field.textColor = [prefs colorForKey:@"textTint"]
     return field;
 }
 %end
@@ -262,7 +254,7 @@ _____                     _     ____
     UIColor *avgColor = imageAverageColor(textImage);
     self.textColor = avgColor;
   }else{
-    self.textColor = [UIColor blackColor];//[prefs colorForKey:@"textTint"];
+    self.textColor = [prefs colorForKey:@"textTint"]//[prefs colorForKey:@"textTint"];
   }
 
 }
