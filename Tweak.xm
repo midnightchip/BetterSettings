@@ -590,6 +590,15 @@ _____                     _     ____
 
 %end
 
+%hook PUAlbumListCellContentView
+@interface PUAlbumListCellContentView : UIView
+@end
+-(UITextField *)_titleTextField {
+    UITextField* field = %orig;
+    field.textColor = [prefs colorForKey:@"textTint"];
+    return field;
+}
+%end
 
 /*
  _                _       _       _     _
