@@ -71,7 +71,7 @@ static NSString *imagePlist = @"com.midnightchips.bettersettings.bgimage";
 static NSString *nsNotificationString = @"com.midnightchips.bettersettings.prefschanged";
 static NSString *nsPrefPlistPath = @"/User/Library/Preferences/com.midnightchips.bettersettings.plist";
 
-static UIImage *textImage;
+//static UIImage *bgImage;
 static NSData *tableImage;
 
 static void notificationCallback(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo) {
@@ -151,7 +151,17 @@ if ([self respondsToSelector:@selector(suspend)])
                                      [[UIApplication sharedApplication] close];
                                      [[UIApplication sharedApplication] terminateWithSuccess];
                                    }];
-  UIAlertAction* image = [UIAlertAction actionWithTitle:@"Transparent with Background Image" style:UIAlertActionStyleDefault
+     UIAlertAction* whiteBubble = [UIAlertAction actionWithTitle:@"Light Bubbles" style:UIAlertActionStyleDefault
+                                      handler:^(UIAlertAction * action) {
+                                      [fileManager createDirectoryAtPath:@"/var/mobile/Library/Preferences/BetterSettings/" withIntermediateDirectories:NO attributes:nil error:nil];
+                                      [fileManager createFileAtPath:@"/var/mobile/Library/Preferences/BetterSettings/preset" contents:nil attributes:nil];
+                                      NSDictionary* dict = @{@"statusColor":@"000000", @"tableColor":@"FFFFFF", @"enableImage":@NO, @"tintNav":@NO, @"navTint":@"000000", @"cornerRadius":@12, @"bubbleColor":@"F6F6F6", @"textTint":@"000000", @"borderWidth":@3,@"borderColor":@"FFFFFF",@"bubbleSelectionColor":@"E9E9E9", @"hideIcons":@NO, @"CleanSettings":@NO};
+                                      [dict writeToFile:@"/var/mobile/Library/Preferences/com.midnightchips.bettersettings.plist" atomically:YES];
+                                      [[UIApplication sharedApplication] close];
+                                      [[UIApplication sharedApplication] terminateWithSuccess];
+                                    }];
+
+UIAlertAction* image = [UIAlertAction actionWithTitle:@"Transparent with Background Image" style:UIAlertActionStyleDefault
                                   handler:^(UIAlertAction * action) {
                                     [fileManager createDirectoryAtPath:@"/var/mobile/Library/Preferences/BetterSettings/" withIntermediateDirectories:NO attributes:nil error:nil];
                                     [fileManager createFileAtPath:@"/var/mobile/Library/Preferences/BetterSettings/preset" contents:nil attributes:nil];
@@ -166,7 +176,9 @@ if ([self respondsToSelector:@selector(suspend)])
 
                                   }];
 
+
     [alert addAction:bubble];
+    [alert addAction:whiteBubble];
     [alert addAction:image];
     [self presentViewController:alert animated:YES completion:nil];
 
@@ -262,7 +274,7 @@ if ([self respondsToSelector:@selector(suspend)])
     self.titleTextAttributes = @{NSForegroundColorAttributeName: [UIColor blackColor]};
 
     //Tints the Buttons
-    self.tintColor = [UIColor greenColor];
+    self.tintColor = [prefs colorForKey:@"textTint"];
 
     //Hide background Image of NavBar, Makes black/ background image stand out
     [self setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
@@ -689,8 +701,52 @@ CGFloat customCornerRadius = 10;
 */
 
 
+/*
+_____ _
+|  __ (_)
+| |__) | _ __
+|  ___/ | '_ \
+| |   | | | | |
+|_|   |_|_| |_|
 
+              */
+%hook DevicePINPane
+@interface DevicePINPane : UIView
+@end
+-(void)didMoveToWindow{
+  %orig;
+  if(![prefs boolForKey:@"enableImage"]){
+    self.backgroundColor = [prefs colorForKey:@"tableColor"];
+  }else{
+    self.backgroundColor = [UIColor blackColor];
+  }
 
+}
+%end
+
+%hook PSBulletedPINView
+@interface PSBulletedPINView : UIView
+@end
+-(void)didMoveToWindow{
+  %orig;
+  if(![prefs boolForKey:@"enableImage"]){
+    self.backgroundColor = [prefs colorForKey:@"tableColor"];
+  }else{
+    //self.backgroundColor =
+    UIImage *bgImage = [[UIImage imageWithData:tableImage] imageScaledToSize:[[UIApplication sharedApplication] keyWindow].bounds.size];
+    self.backgroundColor = [UIColor colorWithPatternImage:bgImage];//[[UIImageView alloc] initWithImage: bgImage];
+  }
+}
+%end
+%hook PSPasscodeField
+@interface PSPasscodeField : UIView
+@property (nonatomic, strong) UIColor *foregroundColor;
+@end
+-(void)didMoveToWindow{
+  %orig;
+  self.foregroundColor = [prefs colorForKey:@"textTint"];
+}
+%end
 
 %ctor{
   //Cleansettings

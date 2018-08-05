@@ -13,70 +13,111 @@
 				<integer>1</integer>
 			</dict>
 			<dict>
-				<key>action</key>
-				<string>openInBrowser:</string>
 				<key>cell</key>
 				<string>PSLinkCell</string>
-				<key>url</key>
-				<string>https://twitter.com/CreatureSurvive</string>
-				<key>label</key>
+				<key>cellClass</key>
+				<string>CSPDeveloperCell</string>
+				<key>action</key>
+				<string>openInBrowser:</string>
+				<key>username</key>
 				<string>CreatureSurvive</string>
-				<key>sublabel</key>
-				<string>Made prefs, helped me more than words can describe</string>
+				<key>provider</key>
+				<string>1</string>
+				<key>height</key>
+				<string>81</string>
+				<key>devName</key>
+				<string></string>
+				<key>devTitle</key>
+				<string>CreatureSurvive</string>
+				<key>devSubtitle</key>
+				<string>Made prefs, Amazing Guidance</string>
 			</dict>
 
 			<dict>
-				<key>action</key>
-				<string>openInBrowser:</string>
 				<key>cell</key>
 				<string>PSLinkCell</string>
-				<key>url</key>
-				<string>https://twitter.com/Lucifers_Circle</string>
-				<key>label</key>
+				<key>cellClass</key>
+				<string>CSPDeveloperCell</string>
+				<key>action</key>
+				<string>openInBrowser:</string>
+				<key>username</key>
+				<string>Lucifers_Circle</string>
+				<key>provider</key>
+				<string>1</string>
+				<key>height</key>
+				<string>81</string>
+				<key>devName</key>
+				<string></string>
+				<key>devTitle</key>
 				<string>Lucifers Circle</string>
-				<key>sublabel</key>
-				<string>Helped hide icons, and made Clean Settings</string>
+				<key>devSubtitle</key>
+				<string>Hide icons, Clean Settings</string>
 			</dict>
 
 			<dict>
-				<key>action</key>
-				<string>openInBrowser:</string>
 				<key>cell</key>
 				<string>PSLinkCell</string>
-				<key>url</key>
-				<string>https://twitter.com/squ1dd13</string>
-				<key>label</key>
+				<key>cellClass</key>
+				<string>CSPDeveloperCell</string>
+				<key>action</key>
+				<string>openInBrowser:</string>
+				<key>username</key>
+				<string>squ1dd13</string>
+				<key>provider</key>
+				<string>1</string>
+				<key>height</key>
+				<string>81</string>
+				<key>devName</key>
+				<string></string>
+				<key>devTitle</key>
 				<string>Squiddy</string>
-				<key>sublabel</key>
+				<key>devSubtitle</key>
 				<string>Let me ask stupid questions</string>
 			</dict>
 
 			<dict>
-				<key>action</key>
-				<string>openInBrowser:</string>
 				<key>cell</key>
 				<string>PSLinkCell</string>
-				<key>url</key>
-				<string>https://twitter.com/Muirey03</string>
-				<key>label</key>
+				<key>cellClass</key>
+				<string>CSPDeveloperCell</string>
+				<key>action</key>
+				<string>openInBrowser:</string>
+				<key>username</key>
 				<string>Muirey03</string>
-				<key>sublabel</key>
-				<string>Also Helped me with my stupid questions</string>
+				<key>provider</key>
+				<string>1</string>
+				<key>height</key>
+				<string>81</string>
+				<key>devName</key>
+				<string></string>
+				<key>devTitle</key>
+				<string>Muirey03</string>
+				<key>devSubtitle</key>
+				<string>Also helped me with my stupid questions</string>
 			</dict>
+
 			<dict>
-				<key>action</key>
-				<string>openInBrowser:</string>
 				<key>cell</key>
 				<string>PSLinkCell</string>
-				<key>url</key>
-				<string>https://twitter.com/_Easy_Z_</string>
-				<key>label</key>
+				<key>cellClass</key>
+				<string>CSPDeveloperCell</string>
+				<key>action</key>
+				<string>openInBrowser:</string>
+				<key>username</key>
+				<string>_Easy_Z_</string>
+				<key>provider</key>
+				<string>1</string>
+				<key>height</key>
+				<string>81</string>
+				<key>devName</key>
+				<string></string>
+				<key>devTitle</key>
 				<string>Easy Z</string>
-				<key>sublabel</key>
+				<key>devSubtitle</key>
 				<string>Fearless Beta Tester</string>
 			</dict>
 		</array>
 		<key>title</key>
-		<string>Special Thanks</string>
+		<string>Special Thanks To:</string>
 	</dict>
 </plist>

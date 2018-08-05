@@ -25,7 +25,6 @@
 				<key>devSubtitle</key>
 				<string>Developer</string>
 			</dict>
-
 			<dict>
 				<key>cell</key>
 				<string>PSGroupCell</string>
@@ -72,14 +71,24 @@
 			</dict>
 
 			<dict>
-				<key>action</key>
-				<string>openInBrowser:</string>
 				<key>cell</key>
 				<string>PSLinkCell</string>
-				<key>url</key>
-				<string>https://twitter.com/midnightchip</string>
-				<key>label</key>
+				<key>cellClass</key>
+				<string>CSPDeveloperCell</string>
+				<key>action</key>
+				<string>openInBrowser:</string>
+				<key>username</key>
+				<string>MidnightChip</string>
+				<key>provider</key>
+				<string>1</string>
+				<key>height</key>
+				<string>81</string>
+				<key>devName</key>
+				<string></string>
+				<key>devTitle</key>
 				<string>@MidnightChip</string>
+				<key>devSubtitle</key>
+				<string></string>
 			</dict>
 
 			<dict>

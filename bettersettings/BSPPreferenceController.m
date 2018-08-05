@@ -63,6 +63,23 @@ UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"Close Settings" 
 [self presentViewController:alert animated:YES completion:nil];
 }
 
+-(void)BS_enableLightBubbles{
+  NSDictionary* dict = @{@"statusColor":@"000000", @"tableColor":@"FFFFFF", @"enableImage":@NO, @"tintNav":@NO, @"navTint":@"000000", @"cornerRadius":@12, @"bubbleColor":@"F6F6F6", @"textTint":@"000000", @"borderWidth":@3,@"borderColor":@"FFFFFF",@"bubbleSelectionColor":@"E9E9E9", @"hideIcons":@NO, @"CleanSettings":@NO};
+  [dict writeToFile:@"/var/mobile/Library/Preferences/com.midnightchips.bettersettings.plist" atomically:YES];
+UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Applied"
+                           message:@"Settings Applied!"
+                           preferredStyle:UIAlertControllerStyleAlert];
+
+UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"Close Settings" style:UIAlertActionStyleDefault
+                               handler:^(UIAlertAction * action) {
+                                 [[UIApplication sharedApplication] close];
+                                 [[UIApplication sharedApplication] terminateWithSuccess];
+                               }];
+
+[alert addAction:defaultAction];
+[self presentViewController:alert animated:YES completion:nil];
+}
+
 -(void)BS_enableImage{
   NSDictionary* dict = @{@"statusColor":@"FFFFFFFF", @"tableColor":@"00000000", @"enableImage":@YES, @"tintNav":@YES, @"navTint":@"42000000", @"cornerRadius":@0, @"bubbleColor":@"0026252A", @"textTint":@"FFFFFF", @"borderWidth":@0,@"borderColor":@"00000000",@"bubbleSelectionColor":@"34000000", @"hideIcons":@NO, @"CleanSettings":@NO};
   [dict writeToFile:@"/var/mobile/Library/Preferences/com.midnightchips.bettersettings.plist" atomically:YES];
