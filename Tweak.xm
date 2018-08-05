@@ -600,6 +600,19 @@ _____                     _     ____
 }
 %end
 
+%hook PUCollectionView
+@interface PUCollectionView : UIView
+@end
+-(void)didMoveToWindow{
+  %orig;
+  if([prefs boolForKey:@"enableImage"]){
+    UIImage *bgImage = [[UIImage imageWithData:tableImage] imageScaledToSize:[[UIApplication sharedApplication] keyWindow].bounds.size];
+    self.backgroundColor = [UIColor colorWithPatternImage:bgImage];
+  }else{
+    self.backgroundColor = [prefs colorForKey:@"tableColor"];
+  }
+}
+%end
 /*
  _                _       _       _     _
 | |              (_)     / \     | |   | |
