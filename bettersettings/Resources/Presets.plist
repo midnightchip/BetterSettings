@@ -26,6 +26,16 @@
 			</dict>
 			<dict>
 				<key>action</key>
+				<string>BS_enableDarkClean</string>
+				<key>cell</key>
+				<string>PSButtonCell</string>
+				<key>icon</key>
+				<string>patreon.png</string>
+				<key>label</key>
+				<string>Dark Clean Mode</string>
+			</dict>
+			<dict>
+				<key>action</key>
 				<string>BS_enableImage</string>
 				<key>cell</key>
 				<string>PSButtonCell</string>

@@ -160,6 +160,15 @@ if ([self respondsToSelector:@selector(suspend)])
                                       [[UIApplication sharedApplication] close];
                                       [[UIApplication sharedApplication] terminateWithSuccess];
                                     }];
+    UIAlertAction* darkClean = [UIAlertAction actionWithTitle:@"Dark Clean" style:UIAlertActionStyleDefault
+                                    handler:^(UIAlertAction * action) {
+                                    [fileManager createDirectoryAtPath:@"/var/mobile/Library/Preferences/BetterSettings/" withIntermediateDirectories:NO attributes:nil error:nil];
+                                    [fileManager createFileAtPath:@"/var/mobile/Library/Preferences/BetterSettings/preset" contents:nil attributes:nil];
+                                    NSDictionary* dict = @{@"statusColor":@"FFFFFF", @"tableColor":@"000000", @"enableImage":@NO, @"tintNav":@NO, @"navTint":@"000000", @"cornerRadius":@0, @"bubbleColor":@"161616", @"textTint":@"FFFFFF", @"borderWidth":@0,@"borderColor":@"000000",@"bubbleSelectionColor":@"25000000", @"hideIcons":@YES, @"CleanSettings":@YES};
+                                    [dict writeToFile:@"/var/mobile/Library/Preferences/com.midnightchips.bettersettings.plist" atomically:YES];
+                                    [[UIApplication sharedApplication] close];
+                                    [[UIApplication sharedApplication] terminateWithSuccess];
+                                                                   }];
 
 UIAlertAction* image = [UIAlertAction actionWithTitle:@"Transparent with Background Image" style:UIAlertActionStyleDefault
                                   handler:^(UIAlertAction * action) {
@@ -179,6 +188,7 @@ UIAlertAction* image = [UIAlertAction actionWithTitle:@"Transparent with Backgro
 
     [alert addAction:bubble];
     [alert addAction:whiteBubble];
+    [alert addAction:darkClean];
     [alert addAction:image];
     [self presentViewController:alert animated:YES completion:nil];
 
