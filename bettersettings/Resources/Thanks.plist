@@ -41,6 +41,27 @@
 				<key>action</key>
 				<string>openInBrowser:</string>
 				<key>username</key>
+				<string>fr0st</string>
+				<key>provider</key>
+				<string>1</string>
+				<key>height</key>
+				<string>81</string>
+				<key>devName</key>
+				<string></string>
+				<key>devTitle</key>
+				<string>Fr0st</string>
+				<key>devSubtitle</key>
+				<string>Helped with iPX</string>
+			</dict>
+
+			<dict>
+				<key>cell</key>
+				<string>PSLinkCell</string>
+				<key>cellClass</key>
+				<string>CSPDeveloperCell</string>
+				<key>action</key>
+				<string>openInBrowser:</string>
+				<key>username</key>
 				<string>Lucifers_Circle</string>
 				<key>provider</key>
 				<string>1</string>
