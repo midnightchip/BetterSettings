@@ -28,5 +28,7 @@
 		<false/>
 		<key>CleanSettings</key>
 		<false/>
+		<key>buttonTint</key>
+		<string>FFFFFF</string>
 	</dict>
 </plist>

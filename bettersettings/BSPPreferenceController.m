@@ -1,6 +1,6 @@
 #include "BSPPreferenceController.h"
 #include <CSPreferences/libCSPUtilities.h>
-
+#import <GoogleMobileAds/GoogleMobileAds.h>
 
 @interface UIApplication (existing)
 - (void)suspend;
@@ -122,6 +122,9 @@ UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"Close Settings" 
   [[UIApplication sharedApplication] close];
   [[UIApplication sharedApplication] terminateWithSuccess];
 }
+
+
+
 @end
 @implementation BSPPreferenceController
 
@@ -129,6 +132,7 @@ UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"Close Settings" 
     [super viewWillAppear:animated];
     UIBarButtonItem *applyButton = [[UIBarButtonItem alloc] initWithTitle:@"Apply" style:UIBarButtonItemStylePlain target:self action:@selector(applySettings)];
         self.navigationItem.rightBarButtonItem = applyButton;
+
 }
 -(void)applySettings{
   [[UIApplication sharedApplication] close];
