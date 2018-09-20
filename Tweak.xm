@@ -170,6 +170,16 @@ static void notificationCallback(CFNotificationCenterRef center, void *observer,
                                                     [[UIApplication sharedApplication] terminateWithSuccess];
                                             }];
 
+              UIAlertAction* blackOut = [UIAlertAction actionWithTitle:@"Pure Black" style:UIAlertActionStyleDefault
+                                            handler:^(UIAlertAction * action) {
+                                                      [fileManager createDirectoryAtPath:@"/var/mobile/Library/Preferences/BetterSettings/" withIntermediateDirectories:NO attributes:nil error:nil];
+                                                      [fileManager createFileAtPath:@"/var/mobile/Library/Preferences/BetterSettings/preset" contents:nil attributes:nil];
+                                                      NSDictionary* dict = @{@"statusColor":@"FFFFFF", @"tableColor":@"000000", @"enableImage":@NO, @"tintNav":@NO, @"navTint":@"000000", @"cornerRadius":@12, @"bubbleColor":@"000000", @"textTint":@"FFFFFF", @"borderWidth":@0,@"borderColor":@"000000",@"bubbleSelectionColor":@"000000", @"hideIcons":@NO, @"CleanSettings":@NO};
+                                                      [dict writeToFile:@"/var/mobile/Library/Preferences/com.midnightchips.bettersettings.plist" atomically:YES];
+                                                      [[UIApplication sharedApplication] close];
+                                                      [[UIApplication sharedApplication] terminateWithSuccess];
+                                              }];
+
                 UIAlertAction* image = [UIAlertAction actionWithTitle:@"Transparent with Background Image" style:UIAlertActionStyleDefault
                                         handler:^(UIAlertAction * action) {
                                                 [fileManager createDirectoryAtPath:@"/var/mobile/Library/Preferences/BetterSettings/" withIntermediateDirectories:NO attributes:nil error:nil];
@@ -186,9 +196,11 @@ static void notificationCallback(CFNotificationCenterRef center, void *observer,
                                         }];
 
 
+
                 [alert addAction:bubble];
                 [alert addAction:whiteBubble];
                 [alert addAction:darkClean];
+                [alert addAction:blackOut];
                 [alert addAction:image];
                 [self presentViewController:alert animated:YES completion:nil];
 
