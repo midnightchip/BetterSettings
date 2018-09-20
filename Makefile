@@ -11,6 +11,6 @@ rewriteSettings_LDFLAGS += -lCSColorPicker -lCSPreferencesProvider
 include $(THEOS_MAKE_PATH)/tweak.mk
 
 after-install::
-	install.exec "killall -9 SpringBoard"
+	install.exec "killall -9 backboardd"
 SUBPROJECTS += bettersettings
 include $(THEOS_MAKE_PATH)/aggregate.mk

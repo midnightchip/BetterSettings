@@ -1,6 +1,5 @@
 #include "BSPPreferenceController.h"
 #include <CSPreferences/libCSPUtilities.h>
-#import <GoogleMobileAds/GoogleMobileAds.h>
 
 @interface UIApplication (existing)
 - (void)suspend;
@@ -122,7 +121,6 @@ UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"Close Settings" 
   [[UIApplication sharedApplication] close];
   [[UIApplication sharedApplication] terminateWithSuccess];
 }
-
 
 
 @end

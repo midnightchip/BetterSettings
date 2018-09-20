@@ -387,7 +387,7 @@ static void notificationCallback(CFNotificationCenterRef center, void *observer,
 
  */
 %hook UITableViewCell
--(void)didMoveToWindow {
+-(void)layoutSubviews {
         %orig;
         //Corners of the Tables
 
@@ -420,6 +420,7 @@ static void notificationCallback(CFNotificationCenterRef center, void *observer,
 
         //self.selectionTintColor = [UIColor blackColor];
 }
+
 %end
 
 

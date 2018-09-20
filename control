@@ -1,7 +1,7 @@
 Package: com.midnightchips.bettersettings
 Name: BetterSettings
 Depends: mobilesubstrate, com.laughingquoll.prefixui, com.muirey03.libimagepicker, com.creaturesurvive.libcscolorpicker, com.creaturecoding.libcspreferences, org.thebigboss.libcolorpicker
-Version: 0.0.7
+Version: 0.1.0
 Architecture: iphoneos-arm
 Description: Settings your way
 Maintainer: midnightchips
