@@ -1,5 +1,4 @@
 #import "UIImage+ScaledImage.h"
-#import <PrefixUI/PrefixUI.h>
 #import <UIKit/UIKit.h>
 #include <CSColorPicker/CSColorPicker.h>
 #import <libimagepicker.h>
@@ -511,6 +510,9 @@ static void notificationCallback(CFNotificationCenterRef center, void *observer,
 %end
 
 //Prefix Compatibility
+@interface PRXBubbleBackgroundView : UIView
+@end
+
 %hook PRXBubbleBackgroundView
 -(void)layoutSubviews{
         %orig;
